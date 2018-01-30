@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Weekdays;
 use Illuminate\Http\Request;
 use App\Config;
-use App\Weekdays;
+use App\WeekdaysOld;
 
 class AppointmentController extends Controller
 {
@@ -13,8 +14,10 @@ class AppointmentController extends Controller
     {
         $totalPeriods = Config::getPeriods();
 
-        $weekdays = Weekdays::getDaysFor($date);
-        
-        return view('appointment.index', compact('totalPeriods', 'weekdays'));
+        $weekdays = Weekdays::getWeekdaysFor($date);
+
+        $today = Weekdays::getToday();
+
+        return view('appointment.index', compact('totalPeriods', 'weekdays', 'today'));
     }
 }

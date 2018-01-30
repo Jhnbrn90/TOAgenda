@@ -2,93 +2,91 @@
 
 namespace App;
 
+
 use Carbon\Carbon;
 
-class Weekdays
-{
-    public $startDate;
-    public $previous;
-    public $next;
-    public $weekend = false;
-    public $weekdays_array = [];
-    public $parseDate = '10-10-2017';
+class Weekdays {
 
-    public function __construct(string $startDate)
+    private $date;
+    private $firstDate;
+    private $fullWeekArray;
+    private $weekdays;
+
+    /**
+     * Weekdays constructor.
+     * @param string $date
+     */
+    public function __construct($date = 'now')
     {
-        $this->startDate = Carbon::parse($startDate);
-
-        if ($this->startDate->isWeekend()) {
-            $this->weekend = true;
-        }
+        $this->date = $date;
+        $this->getFirstWeekday();
+        $this->getFullWeek();
+        $this->filterWeekdays();
     }
 
-    public static function getDaysFor($date)
+    public static function getWeekdaysFor($date)
     {
-       return collect((new self($date))->getDaysofWeek())
-       ->map(function ($weekday) {
-            return [
-                'day' => ucfirst($weekday->formatLocalized('%A')),
-                'date' => ucfirst($weekday->formatLocalized('%e %h'))
-            ];
-        });
+        return (new self($date))
+            ->formattedArray();
+    }
+    
+    public function formattedArray()
+    {
+        return collect($this->weekdays)
+            ->flatmap(function($weekday) {
+                return [
+                    ucfirst($weekday->formatLocalized('%A')) => ucfirst($weekday->formatLocalized('%d %h'))
+                ];
+            })
+            ->toArray();
     }
 
-    public function getDaysofWeek()
+    public function filterWeekdays()
     {
-        if ($this->weekend === true) {
-            $start = (clone $this->startDate)->startofWeek()->addWeek(1);
-        } else {
-            $start = clone $this->startDate;
-        }
+        $week = collect($this->fullWeekArray)
+            ->filter(function($day) {
+                return $day->isWeekday();
+            })
+            ->values()
+            ->toArray();
 
-        $end = (new Carbon($start))->addWeekdays(4);
-
-        while ($start <= $end) {
-            $weekdays[] = new Carbon($start);
-            $start = $start->addWeekdays(1);
-        }
-
-        return $weekdays;
+        return $this->weekdays = $week;
     }
 
-    public function getPreviousWeek()
+    public function getFirstWeekday()
     {
-        $previous = (clone $this->startDate)->subWeek()->startOfWeek()->format('d-m-Y');
+        $date = Carbon::parse($this->date);
 
-        // if the requested date is a weekend day, return the starting monday
-        if ($this->weekend === true) {
-            $previous = (clone $this->startDate)->startOfWeek()->format('d-m-Y');
-        } else {
-            // if the previous week is our current week, begin with the current day
-            if ($previous == Carbon::parse($this->parseDate)->startOfWeek()->format('d-m-Y')) {
-                $previous = Carbon::parse($this->parseDate)->format('d-m-Y');
-            }
-            if ($previous == Carbon::parse($this->parseDate)->format('d-m-Y')) {
-                $previous = (clone $this->startDate)->subWeek(1)->format('d-m-Y');
-            }
-        }
+        $firstDate = $this->excludeWeekend($date);
 
-        return $previous;
+        return $this->firstDate = $firstDate;
     }
 
-    public function getNextWeek()
+    public function getFullWeek()
     {
-        $next = (clone $this->startDate)->addWeek()->startOfWeek()->format('d-m-Y');
-        // 02-10-2017
+        $start = Carbon::parse($this->firstDate);
 
-        if ($this->weekend == true) {
-            $next = (clone $this->startDate)->addWeek(2)->startOfWeek()->format('d-m-Y');
-        } else {
-            if ($next == (Carbon::parse($this->parseDate))->startOfWeek()->format('d-m-Y')) {
-                $next = Carbon::parse($this->parseDate)->format('d-m-Y');
-            }
-            if ($next == Carbon::parse($this->parseDate)->format('d-m-Y')) {
-                $next = (clone $this->startDate)->addWeek()->format('d-m-Y');
-            }
+        $fullWeekArray[] = clone $start;
 
+        while(count($fullWeekArray) < 7) {
+            $fullWeekArray[] = clone $start->addDays(1);
         }
 
-        return $next;
+        return $this->fullWeekArray = $fullWeekArray;
     }
 
+    public function excludeWeekend($date)
+    {
+        if ($date->isWeekend()) {
+            $date = $date->addDay(1);
+            $this->excludeWeekend($date);
+        }
+
+        return $date;
+    }
+
+    public static function getToday()
+    {
+        return ucfirst((Carbon::now())->formatLocalized('%A'));
+    }
 }

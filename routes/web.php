@@ -15,4 +15,4 @@ Auth::routes();
 
 Route::get('/home', 'AppointmentController@index')->name('home');
 
-Route::get('/', 'AppointmentController@index')->middleware('auth');
+Route::get('/', 'AppointmentController@index');

@@ -43069,11 +43069,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['day', 'date']
+    props: ['day', 'date', 'today']
 
 });
 
@@ -43090,8 +43098,16 @@ var render = function() {
     { staticClass: "grid-item" },
     [
       _c("div", { staticClass: "weekday-title" }, [
-        _c("h3", [_vm._v(" " + _vm._s(this.day) + " ")]),
-        _vm._v("\n        " + _vm._s(this.date) + "\n    ")
+        this.today == 1
+          ? _c("div", [
+              _c("h3", [_c("strong", [_vm._v(" " + _vm._s(this.day) + " ")])]),
+              _vm._v(" "),
+              _c("strong", [_vm._v(" " + _vm._s(this.date) + " ")])
+            ])
+          : _c("div", [
+              _c("h3", [_vm._v(" " + _vm._s(this.day) + " ")]),
+              _vm._v("\n            " + _vm._s(this.date) + "\n        ")
+            ])
       ]),
       _vm._v(" "),
       _vm._t("default")

@@ -5,11 +5,13 @@
 <div class="container">
     <div class="grid-container">
 
-        @foreach ($weekdays as $weekday)
+        @foreach ($weekdays as $day => $date)
             <weekday 
-            day="{{ $weekday['day'] }}" 
-            date="{{ $weekday['date'] }}">
-
+            day="{{ $day }}"
+            date="{{ $date }}"
+            @if ($day === $today)
+            today="1"
+            @endif>
                 @for ($period = 1; $period <= $totalPeriods; $period++)
                     <lesson-period time="{{ $period }}"></lesson-period>        
                 @endfor
