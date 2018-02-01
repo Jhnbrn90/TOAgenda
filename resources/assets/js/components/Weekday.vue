@@ -1,15 +1,11 @@
 <template>
     <div class="grid-item">
         <div class="weekday-title">
-            <div v-if="this.today == 1">
-                <h3> <strong> {{ this.day }} </strong></h3>
-                <strong> {{ this.date }} </strong>
+            <div>
+                <h3 class="daytitle"> <strong> {{ this.day }} </strong></h3>
+                <span class="daydate"> {{ this.date }} </span>
             </div>
 
-            <div v-else>
-                <h3> {{ this.day }} </h3>
-                {{ this.date }}
-            </div>
 
         </div>
 

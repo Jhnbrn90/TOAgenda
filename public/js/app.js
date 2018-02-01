@@ -43073,10 +43073,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -43098,16 +43094,15 @@ var render = function() {
     { staticClass: "grid-item" },
     [
       _c("div", { staticClass: "weekday-title" }, [
-        this.today == 1
-          ? _c("div", [
-              _c("h3", [_c("strong", [_vm._v(" " + _vm._s(this.day) + " ")])]),
-              _vm._v(" "),
-              _c("strong", [_vm._v(" " + _vm._s(this.date) + " ")])
-            ])
-          : _c("div", [
-              _c("h3", [_vm._v(" " + _vm._s(this.day) + " ")]),
-              _vm._v("\n            " + _vm._s(this.date) + "\n        ")
-            ])
+        _c("div", [
+          _c("h3", { staticClass: "daytitle" }, [
+            _c("strong", [_vm._v(" " + _vm._s(this.day) + " ")])
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "daydate" }, [
+            _vm._v(" " + _vm._s(this.date) + " ")
+          ])
+        ])
       ]),
       _vm._v(" "),
       _vm._t("default")
@@ -43208,20 +43203,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "panel panel-default" }, [
-    _c("div", { staticClass: "panel-body" }, [
-      _c("h3", { staticClass: "appointment-time" }, [
-        _vm._v(_vm._s(this.time)),
-        _c("sup", [_vm._v("e")]),
-        _vm._v(" uur")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "appointment-body" }, [
-        _vm._v("\n                  Beschikbaar\n              ")
-      ]),
-      _vm._v(" "),
-      _c("a", { attrs: { href: "#" } }, [_vm._v("Inplannen")])
-    ])
+  return _c("div", { staticClass: "panel panel-default period" }, [
+    _c(
+      "div",
+      { staticClass: "panel-body" },
+      [
+        _c("h3", { staticClass: "appointment-time" }, [
+          _vm._v(_vm._s(this.time)),
+          _c("sup", [_vm._v("e")]),
+          _vm._v(" uur")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "appointment-body" }, [
+          _vm._v("\n                  Beschikbaar\n              ")
+        ]),
+        _vm._v(" "),
+        _vm._t("default")
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = []

@@ -8350,6 +8350,32 @@ button.close {
   }
 }
 
+body {
+  margin-bottom: 20px;
+}
+
+.past {
+  opacity: 0.5;
+}
+
+.today {
+  font-weight: 800;
+  border-left: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-right: 0.5px solid lightgrey;
+  border-top: 0.5px solid lightgrey;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 3px lightgrey;
+          box-shadow: 4px 3px lightgrey;
+}
+
+.today h3.daytitle {
+  text-decoration: underline;
+}
+
+.today span.daydate {
+  font-weight: 900;
+}
+
 .weekday-title {
   color: #000;
   padding-bottom: 10px;
@@ -8361,7 +8387,7 @@ button.close {
 }
 
 .appointment-body {
-  margin-bottom: 2px;
+  margin-bottom: 10px;
 }
 
 .grid-container {

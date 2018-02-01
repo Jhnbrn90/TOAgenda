@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Weekdays;
+use App\WeekdaysCollection;
 
 class AppointmentsTest extends TestCase
 {
@@ -13,7 +13,7 @@ class AppointmentsTest extends TestCase
     /** @test */
     public function the_homepage_shows_the_correct_dates_for_the_week()
     {
-     $weekdays = Weekdays::getWeekdaysFor('now');
+     $weekdays = WeekdaysCollection::getWeekdaysFor('now');
 
      foreach ($weekdays as $weekday => $date) {
          $weekdaysArray[] = [$weekday => $date];

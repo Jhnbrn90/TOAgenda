@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Weekdays;
+use App\WeekdaysCollection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Config;
-use App\WeekdaysOld;
 
 class AppointmentController extends Controller
 {
 
-    public function index(string $date = 'now') 
+    public function index(string $date = 'now')
     {
-        $totalPeriods = Config::getPeriods();
+        $periods = Config::getPeriods();
+        $week = new WeekdaysCollection();
 
-        $weekdays = Weekdays::getWeekdaysFor($date);
+        $weekdays = $week->array();
+        $today = $week->today();
 
-        $today = Weekdays::getToday();
-
-        return view('appointment.index', compact('totalPeriods', 'weekdays', 'today'));
+        return view('appointment.index', compact('periods', 'weekdays', 'today'));
     }
 }

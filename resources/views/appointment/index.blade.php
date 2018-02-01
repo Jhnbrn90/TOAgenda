@@ -1,27 +1,35 @@
 @extends('layouts.master')
 
 @section('content')
-
 <div class="container">
     <div class="grid-container">
 
-        @foreach ($weekdays as $day => $date)
-            <weekday 
-            day="{{ $day }}"
-            date="{{ $date }}"
-            @if ($day === $today)
-            today="1"
-            @endif>
-                @for ($period = 1; $period <= $totalPeriods; $period++)
-                    <lesson-period time="{{ $period }}"></lesson-period>        
+        @foreach ($weekdays as $weekday)
+
+            <weekday
+                day="{{ $weekday->name }}"
+                date="{{ $weekday->date }}"
+
+                @if ($weekday->isPast())
+                    class="past"
+                @elseif ($weekday->isToday())
+                    class="today"
+                @endif
+            >
+
+                @for ($period = 1; $period <= $periods; $period++)
+                    <lesson-period time="{{ $period }}">
+                        @if (! $weekday->isPast())
+                            <a href="#">Inplannen</a>
+                        @endif
+                    </lesson-period>
                 @endfor
 
-            </weekday> 
+            </weekday>
+
         @endforeach
 
     </div>
 
 </div>
-
-
 @endsection

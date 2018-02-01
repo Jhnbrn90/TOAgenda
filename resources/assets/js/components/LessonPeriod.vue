@@ -1,13 +1,13 @@
 <template>
-  <div class="panel panel-default">
+  <div class="panel panel-default period">
             <div class="panel-body">
                 <h3 class="appointment-time">{{ this.time }}<sup>e</sup> uur</h3>
                 
                 <p class="appointment-body">
                     Beschikbaar
                 </p>
-                
-                <a href="#">Inplannen</a>
+
+                <slot></slot>
 
             </div>
         </div>
