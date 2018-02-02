@@ -8358,6 +8358,12 @@ body {
   opacity: 0.5;
 }
 
+@media only screen and (max-width: 600px) {
+  .past {
+    display: none;
+  }
+}
+
 .today {
   font-weight: 800;
   border-left: 0.5px solid rgba(0, 0, 0, 0.1);
