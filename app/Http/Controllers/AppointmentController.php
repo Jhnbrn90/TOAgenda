@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Appointment;
 use App\WeekdaysCollection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,6 +19,13 @@ class AppointmentController extends Controller
         $weekdays = $week->array();
         $today = $week->today();
 
-        return view('appointment.index', compact('periods', 'weekdays', 'today'));
+        // get appointments from database
+        $appointments = Appointment::all()
+            ->groupBy('date')
+            ->map(function($appt) { return $appt->groupBy('period'); });
+
+//        dd(array_key_exists("06-02-2018", $appointments->toArray()));
+
+        return view('appointment.index', compact('periods', 'weekdays', 'today', 'appointments'));
     }
 }

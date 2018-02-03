@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 
+
 window.Vue = require('vue');
 
 /**
@@ -17,7 +18,50 @@ window.Vue = require('vue');
 
 Vue.component('weekday', require('./components/Weekday.vue'));
 Vue.component('lesson-period', require('./components/LessonPeriod.vue'));
+Vue.component('appointment', require('./components/Appointment.vue'));
 
 const app = new Vue({
-    el: '#app'
-});
+    el: '#app',
+
+    data() {
+        return {
+            modalOpen: false,
+            day: '',
+            period: '',
+        }
+    },
+
+    methods: {
+        escapeKeyListener (evt) {
+            if (evt.keyCode == 27 && this.modalOpen) {
+                this.modalOpen = false;
+            }
+        },
+        openModal(day, period) {
+            this.day = day;
+            this.period = period;
+            this.modalOpen = true;
+        }
+    },
+
+    watch: {
+        modalOpen: function() {
+            var className = 'modal-open';
+            if (this.modalOpen) {
+                document.body.classList.add(className);
+            } else {
+                document.body.classList.remove(className);
+            }
+        }
+    },
+
+    created: function() {
+        document.addEventListener('keyup', this.escapeKeyListener);
+    },
+
+    destroyed: function() {
+        document.removeEventListener('keyup', this.escapeKeyListener);
+    }
+
+}
+);

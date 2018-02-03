@@ -8,7 +8,9 @@ use Carbon\Carbon;
 class Weekday {
     public $carbon;
     public $name;
-    public $date;
+    public $date_string;
+    public $day_month;
+
 
     /**
      * Weekday constructor.
@@ -23,10 +25,11 @@ class Weekday {
             $this->carbon->formatLocalized('%A')
         );
 
-        $this->date = ucfirst(
+        $this->day_month = ucfirst(
             $this->carbon->formatLocalized('%d %h')
         );
 
+        $this->date_string = $this->carbon->format('d-m-Y');
     }
 
     public function isPast()

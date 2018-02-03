@@ -2,31 +2,20 @@
 
 namespace Tests\Feature;
 
-use App\WeekdaysCollection;
-use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AppointmentsTest extends TestCase
 {
+    use RefreshDatabase;
 
     /** @test */
-    public function the_homepage_shows_the_correct_dates_for_the_week()
+    function appointments_for_this_week_show_on_the_homepage()
     {
-        // Retrieve the collection of weekdays for today
-        $weekdays = (new WeekdaysCollection(Carbon::today()))->array();
+        $appointment = create('App\Appointment');
 
-        $homepage = $this->get('/');
-
-        foreach($weekdays as $weekday) {
-            $homepage->assertSee($weekday->name, $weekday->date);
-        }
-
+        $this->get('/')->assertSee($appointment->title);
     }
 
-//    /** @test */
-//    public function an_authenticated_user_can_see_all_appointments()
-//    {
-//      //
-//    }
 }
+

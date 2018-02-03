@@ -45,6 +45,6 @@ class WeekdayTest extends TestCase
     /** @test */
     function a_weekday_can_return_its_formatted_date()
     {
-        $this->assertEquals('05 feb', $this->weekdays[0]->date);
+        $this->assertEquals('05 feb', $this->weekdays[0]->day_month);
     }
 }

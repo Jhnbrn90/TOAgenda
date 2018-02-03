@@ -21,3 +21,16 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+
+$factory->define(App\Appointment::class, function (Faker $faker) {
+    return [
+        'date'          => $faker->dateTimeBetween(
+                                    \App\WeekdaysCollection::firstDay(),
+                                    \App\WeekdaysCollection::lastDay()
+                            )->format('d-m-Y'),
+        'period'        => rand(1, 7),
+        'title'         => ucfirst($faker->word),
+        'body'          => $faker->paragraph,
+    ];
+});

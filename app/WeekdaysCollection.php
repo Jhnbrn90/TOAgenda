@@ -35,6 +35,20 @@ class WeekdaysCollection {
          return $weekdaysArray;
     }
 
+    public static function firstDay()
+    {
+        $weekdays = (new WeekdaysCollection('now'))->array();
+
+        return $weekdays[0]->carbon->format('d-m-Y');
+    }
+
+    public static function lastDay()
+    {
+        $weekdays = (new WeekdaysCollection('now'))->array();
+
+        return $weekdays[4]->carbon->format('d-m-Y');
+    }
+
     public function today()
     {
         return Carbon::today()->endOfDay();
