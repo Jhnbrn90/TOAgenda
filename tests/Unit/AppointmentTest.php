@@ -10,11 +10,23 @@ class AppointmentTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $appointment;
+
+    public function setUp() 
+    {
+       parent::setUp();
+       $this->appointment = create('App\Appointment'); 
+    }
+
     /** @test */
     function an_appointment_can_return_its_path()
     {
-        $appointment = create('App\Appointment');
+        $this->assertEquals("appointments/{$this->appointment->id}", $this->appointment->path());
+    }
 
-        $this->assertEquals("appointments/{$appointment->id}", $appointment->path());
+    /** @test */
+    public function an_appointment_belongs_to_a_creator()
+    {
+        $this->assertInstanceOf('App\User', $this->appointment->creator);
     }
 }

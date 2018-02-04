@@ -1099,15 +1099,23 @@ window.Vue = __webpack_require__(36);
 Vue.component('weekday', __webpack_require__(39));
 Vue.component('lesson-period', __webpack_require__(42));
 Vue.component('appointment', __webpack_require__(45));
+Vue.component('appointment-modal', __webpack_require__(59));
 
 var app = new Vue({
     el: '#app',
 
     data: function data() {
         return {
-            modalOpen: false,
+            modalday: '',
+            modalperiod: '',
+
             day: '',
-            period: ''
+            period: '',
+            newAppointment: false,
+            title: '',
+            body: '',
+            data: ''
+
         };
     },
 
@@ -1118,30 +1126,19 @@ var app = new Vue({
                 this.modalOpen = false;
             }
         },
-        openModal: function openModal(day, period) {
+        setAppointment: function setAppointment(day, period) {
+            this.modalday = day;
+            this.modalperiod = period;
+        },
+        onNewAppointment: function onNewAppointment(title, body, day, period, data) {
+            $('#myModal').modal('hide');
+            this.newAppointment = true;
+            this.title = title;
+            this.body = body;
             this.day = day;
             this.period = period;
-            this.modalOpen = true;
+            this.data = data;
         }
-    },
-
-    watch: {
-        modalOpen: function modalOpen() {
-            var className = 'modal-open';
-            if (this.modalOpen) {
-                document.body.classList.add(className);
-            } else {
-                document.body.classList.remove(className);
-            }
-        }
-    },
-
-    created: function created() {
-        document.addEventListener('keyup', this.escapeKeyListener);
-    },
-
-    destroyed: function destroyed() {
-        document.removeEventListener('keyup', this.escapeKeyListener);
     }
 
 });
@@ -43232,7 +43229,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['time']
-
 });
 
 /***/ }),
@@ -43388,6 +43384,312 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(60)
+/* template */
+var __vue_template__ = __webpack_require__(61)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AppointmentModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-13f6a4f6", Component.options)
+  } else {
+    hotAPI.reload("data-v-13f6a4f6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['day', 'period'],
+
+    data: function data() {
+        return {
+            title: '',
+            body: ''
+        };
+    },
+
+
+    methods: {
+        newAppointment: function newAppointment() {
+            var _this = this;
+
+            axios.post(this.actionURL, {
+                'title': this.title,
+                'body': this.body,
+                'date': this.day,
+                'period': this.period
+            }).then(function (response) {
+                _this.title = '';
+                _this.body = '';
+                _this.$emit('new-appointment', _this.title, _this.body, _this.day, _this.period, response.data);
+            });
+        }
+    },
+
+    computed: {
+        actionURL: function actionURL() {
+            return 'aanvraag/nieuw/' + this.day + '/' + this.period;
+        }
+    }
+});
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "modal fade", attrs: { id: "myModal", role: "dialog" } },
+    [
+      _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [
+            _c("p", [
+              _c("strong", [_vm._v(" Datum: " + _vm._s(this.day) + " ")]),
+              _vm._v(",\n                    "),
+              _c("strong", [
+                _vm._v(" Lesuur: " + _vm._s(this.period)),
+                _c("sup", [_vm._v("e")]),
+                _vm._v(" uur. ")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("form", { attrs: { action: _vm.actionURL, method: "POST" } }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "title" } }, [_vm._v("Titel: ")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.title,
+                      expression: "title"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "title",
+                    placeholder: "Titel",
+                    autofocus: "",
+                    required: ""
+                  },
+                  domProps: { value: _vm.title },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.title = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "body" } }, [
+                  _vm._v("Omschrijving: ")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.body,
+                      expression: "body"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    id: "body",
+                    name: "body",
+                    rows: "3",
+                    placeholder:
+                      "Beschijving van het practicum: proefopstelling, lesmateriaal, etc. Bij assistentie: geef ook aan om welk lesdeel het gaat (hele les, eerste deel, tweede deel)",
+                    required: ""
+                  },
+                  domProps: { value: _vm.body },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.body = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "modal-footer",
+              staticStyle: { "text-align": "left" }
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  on: {
+                    click: function($event) {
+                      _vm.newAppointment()
+                    }
+                  }
+                },
+                [_vm._v("Afspraak inplannen")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Annuleren")]
+              )
+            ]
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v(
+          "\n                    Nieuwe afspraak inplannen\n                "
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-13f6a4f6", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

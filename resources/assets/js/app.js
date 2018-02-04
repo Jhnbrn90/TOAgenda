@@ -19,15 +19,23 @@ window.Vue = require('vue');
 Vue.component('weekday', require('./components/Weekday.vue'));
 Vue.component('lesson-period', require('./components/LessonPeriod.vue'));
 Vue.component('appointment', require('./components/Appointment.vue'));
+Vue.component('appointment-modal', require('./components/AppointmentModal.vue'));
 
 const app = new Vue({
     el: '#app',
 
     data() {
         return {
-            modalOpen: false,
+            modalday: '',
+            modalperiod: '',
+
             day: '',
             period: '',
+            newAppointment: false,
+            title: '',
+            body: '',
+            data: '',
+
         }
     },
 
@@ -37,31 +45,21 @@ const app = new Vue({
                 this.modalOpen = false;
             }
         },
-        openModal(day, period) {
+        setAppointment(day, period) {
+            this.modalday = day;
+            this.modalperiod = period;
+        },
+
+        onNewAppointment(title, body, day, period, data) {
+            $('#myModal').modal('hide');
+            this.newAppointment = true;
+            this.title = title;
+            this.body = body;
             this.day = day;
             this.period = period;
-            this.modalOpen = true;
+            this.data = data;
         }
     },
-
-    watch: {
-        modalOpen: function() {
-            var className = 'modal-open';
-            if (this.modalOpen) {
-                document.body.classList.add(className);
-            } else {
-                document.body.classList.remove(className);
-            }
-        }
-    },
-
-    created: function() {
-        document.addEventListener('keyup', this.escapeKeyListener);
-    },
-
-    destroyed: function() {
-        document.removeEventListener('keyup', this.escapeKeyListener);
-    }
 
 }
 );

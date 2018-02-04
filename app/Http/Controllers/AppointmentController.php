@@ -19,13 +19,30 @@ class AppointmentController extends Controller
         $weekdays = $week->array();
         $today = $week->today();
 
-        // get appointments from database
         $appointments = Appointment::all()
             ->groupBy('date')
             ->map(function($appt) { return $appt->groupBy('period'); });
-
-//        dd(array_key_exists("06-02-2018", $appointments->toArray()));
-
+        
         return view('appointment.index', compact('periods', 'weekdays', 'today', 'appointments'));
+    }
+
+    public function store(Request $request) 
+    {
+        $request->validate([
+            'title'     => 'required',
+            'body'      => 'required',
+            'date'      => 'required',
+            'period'    => 'required',
+        ]);
+
+        $appointment = Appointment::create([
+            'user_id'   => auth()->id(),
+            'title'     => $request->title,
+            'body'      => $request->body,
+            'date'      => $request->date,
+            'period'    => $request->period,
+        ]);
+
+        return $appointment;
     }
 }

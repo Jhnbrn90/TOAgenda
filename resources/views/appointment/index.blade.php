@@ -33,14 +33,20 @@
                             @endforeach
 
                         @else
+
                             <p>Beschikbaar</p>
+
                         @endif
+
+                            {{--<div v-show="newAppointment && (this.period == {{ $period }})">--}}
+                                {{--<div class="new-appointment"> <appointment :title="title" :body="body"></appointment> </div>--}}
+                            {{--</div>--}}
 
                         @if (! $weekday->isPast())
 
-                            <a href="#" v-on:click="openModal('{{ $weekday->date_string }}', '{{ $period }}')">
-                                Inplannen
-                            </a>
+                            <button class="btn btn-link"
+                                @click.prevent="setAppointment('{{ $weekday->date_string }}', '{{ $period }}')"
+                                data-toggle="modal" data-target="#myModal">Inplannen</button>
 
                         @endif
 
@@ -55,15 +61,20 @@
 
 </div>
 
-<div id="modal" v-bind:class="{ show : modalOpen }">
-    <button v-on:click="modalOpen = false" class="modal-close">
-        &times;
-    </button>
-
-    <div class="modal-content">
-        <h1>Nieuwe aanvraag</h1>
-        <br> @{{ day }}
-        <br> @{{ period }}
-    </div>
+<div class="container">
+    <appointment-modal :day="modalday" :period="modalperiod" @new-appointment="onNewAppointment"></appointment-modal>
 </div>
+
+
+{{--<div id="modal" v-bind:class="{ show : modalOpen }">--}}
+    {{--<button v-on:click="modalOpen = false" class="modal-close">--}}
+        {{--&times;--}}
+    {{--</button>--}}
+
+    {{--<div class="modal-content">--}}
+        {{--<h1>Nieuwe aanvraag</h1>--}}
+        {{--<br> @{{ day }}--}}
+        {{--<br> @{{ period }}--}}
+    {{--</div>--}}
+{{--</div>--}}
 @endsection

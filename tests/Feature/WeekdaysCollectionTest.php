@@ -23,6 +23,8 @@ class WeekdaysCollectionTest extends TestCase
         foreach($weekdays as $weekday) {
             $homepage->assertSee($weekday->name, $weekday->day_month);
         }
+
+
     }
 
 }
