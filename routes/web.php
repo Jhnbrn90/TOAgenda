@@ -15,6 +15,6 @@ Auth::routes();
 
 Route::get('/home', 'AppointmentController@index')->name('home');
 
-Route::get('/', 'AppointmentController@index');
+Route::get('/', 'AppointmentController@index')->middleware('auth');
 
 Route::post('/aanvraag/nieuw/{date}/{period}', 'AppointmentController@store')->middleware('auth');

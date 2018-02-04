@@ -58,6 +58,7 @@ const app = new Vue({
             this.day = day;
             this.period = period;
             this.data = data;
+            window.location.reload(true);
         }
     },
 

@@ -15,6 +15,7 @@ class WeekdaysCollectionTest extends TestCase
     /** @test */
     public function the_homepage_shows_the_correct_dates_for_the_week()
     {
+        $this->signIn();
         // Retrieve the collection of weekdays for today
         $weekdays = (new WeekdaysCollection(Carbon::today()))->array();
 

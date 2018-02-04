@@ -16,7 +16,7 @@
                         <strong> Lesuur: {{ this.period }}<sup>e</sup> uur. </strong>
                     </p>
 
-                    <form :action="actionURL" method="POST">
+                    <form :action="actionURL" method="POST" @submit.prevent="newAppointment()">
 
                         <div class="form-group">
                             <label for="title">Titel: </label>

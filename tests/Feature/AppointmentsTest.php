@@ -13,6 +13,8 @@ class AppointmentsTest extends TestCase
     /** @test */
     function appointments_for_this_week_show_on_the_homepage()
     {
+        $this->signIn();
+        
         $appointment = create('App\Appointment');
 
         $this->get('/')->assertSee($appointment->title);
