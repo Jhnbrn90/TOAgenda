@@ -35,6 +35,25 @@ class WeekdaysCollection {
          return $weekdaysArray;
     }
 
+    public function emptyAppointmentsArray()
+    {
+        $weekdays = $this->array();
+
+        $array = [];
+
+        foreach ($weekdays as $weekday) {
+
+//        $array[] = $weekday->date_string;
+
+            for ($i = 1; $i <= 7; $i++) {
+                $array[$weekday->date_string][$i] = [];
+            }
+        }
+
+            return $array;
+
+    }
+
     public static function firstDay()
     {
         $weekdays = (new WeekdaysCollection('now'))->array();

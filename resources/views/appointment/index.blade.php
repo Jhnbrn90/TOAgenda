@@ -2,21 +2,19 @@
 
 @section('content')
 <div class="container">
+
     <div class="grid-container">
-
         @foreach ($weekdays as $weekday)
-
             <weekday
-                day="{{ $weekday->name }}"
-                date="{{ $weekday->day_month }}"
+                    day="{{ $weekday->name }}"
+                    date="{{ $weekday->day_month }}"
 
-                @if ($weekday->isPast())
+                    @if ($weekday->isPast())
                     class="past"
-                @elseif ($weekday->isToday())
+                    @elseif ($weekday->isToday())
                     class="today"
-                @endif
+                    @endif
             >
-
                 @for ($period = 1; $period <= $periods; $period++)
                     <lesson-period time="{{ $period }}">
 
@@ -26,8 +24,8 @@
                             @foreach ($appointments[$weekday->date_string][$period] as $appointment)
 
                                 <appointment
-                                title="{{ $appointment->title }}"
-                                body="{{ $appointment->body }}"
+                                        title="{{ $appointment->title }}"
+                                        body="{{ $appointment->body }}"
                                 ></appointment>
 
                             @endforeach
@@ -41,8 +39,8 @@
                         @if (! $weekday->isPast())
 
                             <button class="btn btn-link"
-                                @click.prevent="setAppointment('{{ $weekday->date_string }}', '{{ $period }}')"
-                                data-toggle="modal" data-target="#myModal">Inplannen</button>
+                                    @click.prevent="setAppointment('{{ $weekday->date_string }}', '{{ $period }}')"
+                                    data-toggle="modal" data-target="#myModal">Inplannen</button>
 
                         @endif
 
@@ -52,6 +50,10 @@
             </weekday>
 
         @endforeach
+    </div>
+
+    <div class="grid-container">
+        <appt v-for="weekday in appointments" v-text="weekday"></appt>
 
     </div>
 

@@ -19,11 +19,33 @@ class AppointmentController extends Controller
         $weekdays = $week->array();
         $today = $week->today();
 
-        $appointments = Appointment::all()
+        $emptyArray = $week->emptyAppointmentsArray();
+
+        $appointments = Appointment::orderBy('date', 'ASC')
+            ->get()
             ->groupBy('date')
             ->map(function($appt) { return $appt->groupBy('period'); });
         
         return view('appointment.index', compact('periods', 'weekdays', 'today', 'appointments'));
+    }
+
+    public function getAppointments(string $date = 'now')
+    {
+        $week = new WeekdaysCollection();
+
+        $weekdays = $week->array();
+        $today = $week->today();
+
+        $emptyArray = $week->emptyAppointmentsArray();
+
+        $appointments = Appointment::orderBy('date', 'ASC')
+            ->get()
+            ->groupBy('date')
+            ->map(function($appt) { return $appt->groupBy('period'); });
+
+        $appointments = array_replace_recursive($emptyArray, $appointments->toArray());
+
+        return $appointments;
     }
 
     public function store(Request $request) 

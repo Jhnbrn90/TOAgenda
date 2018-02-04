@@ -6,11 +6,8 @@
                 <span class="daydate" v-text="this.date"></span>
             </div>
         </div>
-
-        <slot>
-        </slot>
-        
-    </div>  
+        <slot></slot>
+    </div>
 </template>
 
 <script>

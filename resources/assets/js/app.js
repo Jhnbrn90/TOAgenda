@@ -20,12 +20,15 @@ Vue.component('weekday', require('./components/Weekday.vue'));
 Vue.component('lesson-period', require('./components/LessonPeriod.vue'));
 Vue.component('appointment', require('./components/Appointment.vue'));
 Vue.component('appointment-modal', require('./components/AppointmentModal.vue'));
+Vue.component('appt', require('./components/Appt.vue'));
 
 const app = new Vue({
     el: '#app',
 
     data() {
         return {
+            appointments: '',
+
             modalday: '',
             modalperiod: '',
 
@@ -37,6 +40,10 @@ const app = new Vue({
             data: '',
 
         }
+    },
+
+    mounted() {
+      axios.get('/api/appointments').then(response => this.appointments = response.data);
     },
 
     methods: {
@@ -58,7 +65,7 @@ const app = new Vue({
             this.day = day;
             this.period = period;
             this.data = data;
-            window.location.reload(true);
+            axios.get('/api/appointments').then(response => this.appointments = response.data);
         }
     },
 
