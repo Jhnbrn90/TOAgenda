@@ -48,6 +48,13 @@ class AppointmentController extends Controller
         return $appointments;
     }
 
+    public function getWeekdays(string $date = 'now')
+    {
+        $week = new WeekdaysCollection();
+
+        return $weekdays = $week->array();
+    }
+
     public function store(Request $request) 
     {
         $request->validate([

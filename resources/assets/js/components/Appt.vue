@@ -1,6 +1,6 @@
 <template>
-    <div>
-
+    <div class="grid-item">
+        <slot></slot>
     </div>
 </template>
 

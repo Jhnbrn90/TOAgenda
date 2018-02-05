@@ -22,12 +22,14 @@ Vue.component('appointment', require('./components/Appointment.vue'));
 Vue.component('appointment-modal', require('./components/AppointmentModal.vue'));
 Vue.component('appt', require('./components/Appt.vue'));
 
+
 const app = new Vue({
     el: '#app',
 
     data() {
         return {
             appointments: '',
+            weekdays: '',
 
             modalday: '',
             modalperiod: '',
@@ -44,6 +46,7 @@ const app = new Vue({
 
     mounted() {
       axios.get('/api/appointments').then(response => this.appointments = response.data);
+      axios.get('/api/weekdays').then(response => this.weekdays = response.data);
     },
 
     methods: {
@@ -52,8 +55,9 @@ const app = new Vue({
                 this.modalOpen = false;
             }
         },
-        setAppointment(day, period) {
-            this.modalday = day;
+
+        setAppointment(date, period) {
+            this.modalday = date;
             this.modalperiod = period;
         },
 

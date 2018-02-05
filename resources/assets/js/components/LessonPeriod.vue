@@ -7,13 +7,22 @@
 
                 <slot>
                 </slot>
+                <button class="btn btn-link"
+                        @click.prevent="setAppointment"
+                        data-toggle="modal" data-target="#myModal">Inplannen</button>
             </div>
         </div>
 </template>
 
 <script>
 export default {
-    props: ['time'],
+    props: ['time', 'date'],
+
+    methods: {
+        setAppointment() {
+            this.$emit('set-date', this.date, this.time);
+        }
+    }
 }
 </script>
 

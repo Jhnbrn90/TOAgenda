@@ -13,54 +13,21 @@
                     class="past"
                     @elseif ($weekday->isToday())
                     class="today"
-                    @endif
-            >
-                @for ($period = 1; $period <= $periods; $period++)
-                    <lesson-period time="{{ $period }}">
-
-                        @if (array_key_exists($weekday->date_string, $appointments->toArray())
-                        && array_key_exists($period, $appointments[$weekday->date_string]->toArray()))
-
-                            @foreach ($appointments[$weekday->date_string][$period] as $appointment)
-
-                                <appointment
-                                        title="{{ $appointment->title }}"
-                                        body="{{ $appointment->body }}"
-                                ></appointment>
-
-                            @endforeach
-
-                        @else
-
-                            <p>Beschikbaar</p>
-
-                        @endif
-
-                        @if (! $weekday->isPast())
-
-                            <button class="btn btn-link"
-                                    @click.prevent="setAppointment('{{ $weekday->date_string }}', '{{ $period }}')"
-                                    data-toggle="modal" data-target="#myModal">Inplannen</button>
-
-                        @endif
-
-                    </lesson-period>
-                @endfor
-
-            </weekday>
-
+                    @endif></weekday>
         @endforeach
     </div>
 
     <div class="grid-container">
-        <appt v-for="weekday in appointments" v-text="weekday"></appt>
-
+        <appt v-for="(weekday, day) in appointments">
+            <lesson-period v-for="(period, index) in weekday" :time="index" :date="day" @set-date="setAppointment" >
+                <appointment v-for="appointment in period" :title="appointment.title" :body="appointment.body"></appointment>
+            </lesson-period>
+        </appt>
     </div>
-
 </div>
 
 <div class="container">
-    <appointment-modal :day="modalday" :period="modalperiod" @new-appointment="onNewAppointment"></appointment-modal>
+    <appointment-modal  :day="modalday" :period="modalperiod" @new-appointment="onNewAppointment"></appointment-modal>
 </div>
 
 @endsection
