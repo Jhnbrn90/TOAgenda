@@ -4,24 +4,12 @@
 <div class="container">
 
     <div class="grid-container">
-        @foreach ($weekdays as $weekday)
-            <weekday
-                    day="{{ $weekday->name }}"
-                    date="{{ $weekday->day_month }}"
-
-                    @if ($weekday->isPast())
-                    class="past"
-                    @elseif ($weekday->isToday())
-                    class="today"
-                    @endif></weekday>
-        @endforeach
-    </div>
-
-    <div class="grid-container">
         <appt v-for="(weekday, day) in appointments">
-            <lesson-period v-for="(period, index) in weekday" :time="index" :date="day" @set-date="setAppointment" >
-                <appointment v-for="appointment in period" :title="appointment.title" :body="appointment.body"></appointment>
-            </lesson-period>
+            <weekday :date="day" :day="days[day].name" :class="days[day].past ? 'past' : days[day].today ? 'today' : '' ">
+                <lesson-period v-for="(period, index) in weekday" :time="index" :date="day" @set-date="setAppointment" >
+                    <appointment v-for="appointment in period" :title="appointment.title" :body="appointment.body"></appointment>
+                </lesson-period>
+            </weekday>
         </appt>
     </div>
 </div>

@@ -35,6 +35,23 @@ class WeekdaysCollection {
          return $weekdaysArray;
     }
 
+    public function json() 
+    {
+        $weekdays = $this->array();
+        
+        $newArray = [];
+
+        foreach ($weekdays as $weekday) {
+            $newArray[$weekday->carbon->format('d-m-Y')] = [
+                'name' => $weekday->name,
+                'today' => $weekday->isToday(),
+                'past' => $weekday->isPast()
+            ];
+        }
+
+        return json_encode($newArray);
+    }
+
     public function emptyAppointmentsArray()
     {
         $weekdays = $this->array();

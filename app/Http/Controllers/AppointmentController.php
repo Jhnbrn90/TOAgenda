@@ -52,7 +52,7 @@ class AppointmentController extends Controller
     {
         $week = new WeekdaysCollection();
 
-        return $weekdays = $week->array();
+        return $week->json();
     }
 
     public function store(Request $request) 
