@@ -15,9 +15,17 @@ class AppointmentsTest extends TestCase
     {
         $this->signIn();
         
+        // Create an appointment on a random day this week
+        // (See ModelFactory)
         $appointment = create('App\Appointment');
 
-        $this->get('/')->assertSee($appointment->title);
+        // $this->get('/')->assertSee($appointment->title);
+        // assert that the appointments array for this week has our appointment
+        $this->getJson('/api/appointments')
+            ->assertJsonFragment([
+                'title' => $appointment->title,
+                'body' => $appointment->body
+                ]);
     }
 
     /** @test */
