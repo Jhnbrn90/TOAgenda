@@ -8355,6 +8355,23 @@ body {
   margin-bottom: 20px;
 }
 
+.slide-fade-enter-active {
+  -webkit-transition: all .8s ease-in-out;
+  transition: all .8s ease-in-out;
+}
+
+.slide-fade-leave-active {
+  -webkit-transition: all .8s ease-in-out;
+  transition: all .8s ease-in-out;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  -webkit-transform: translateX(5px);
+          transform: translateX(5px);
+  opacity: 0;
+}
+
 .past {
   opacity: 0.5;
 }

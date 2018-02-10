@@ -11,30 +11,21 @@ use App\Config;
 class AppointmentController extends Controller
 {
 
-    public function index(string $date = 'now')
+    public function index()
     {
         $periods = Config::getPeriods();
-        $week = new WeekdaysCollection();
-
-        $weekdays = $week->array();
-        $today = $week->today();
-
-        $emptyArray = $week->emptyAppointmentsArray();
-
-        $appointments = Appointment::orderBy('date', 'ASC')
-            ->get()
-            ->groupBy('date')
-            ->map(function($appt) { return $appt->groupBy('period'); });
         
-        return view('appointment.index', compact('periods', 'weekdays', 'today', 'appointments'));
+        return view('appointment.index', compact('periods'));
     }
 
-    public function getAppointments(string $date = 'now')
+    public function getAppointments(Request $request)
     {
-        $week = new WeekdaysCollection();
+        $date = $request->date ?: 'now';
 
-        $weekdays = $week->array();
-        $today = $week->today();
+        $week = new WeekdaysCollection($date);
+
+        // $weekdays = $week->array();
+        // $today = $week->today();
 
         $emptyArray = $week->emptyAppointmentsArray();
 
@@ -45,12 +36,14 @@ class AppointmentController extends Controller
 
         $appointments = array_replace_recursive($emptyArray, $appointments->toArray());
 
-        return $appointments;
+        return array_slice($appointments, 0, 5, true);
     }
 
-    public function getWeekdays(string $date = 'now')
+    public function getWeekdays(Request $request)
     {
-        $week = new WeekdaysCollection();
+        $date = $request->date ? : 'now';
+
+        $week = new WeekdaysCollection($date);
 
         return $week->json();
     }

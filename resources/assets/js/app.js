@@ -10,34 +10,32 @@ Vue.component('appointment', require('./components/Appointment.vue'));
 Vue.component('appointment-modal', require('./components/AppointmentModal.vue'));
 Vue.component('appt', require('./components/Appt.vue'));
 
+var moment = require('moment');
 
 const app = new Vue({
     el: '#app',
 
     data() {
         return {
+            startDate: 'now',
+            moment: moment,
             appointments: '',
-            weekdays: '',
-
+            days: '',
             modalday: '',
             modalperiod: '',
-
-            day: '',
-            period: '',
-            newAppointment: false,
-            title: '',
-            body: '',
-            data: '',
-
-            days: ''
-
-
         }
     },
 
     mounted() {
-      axios.get('/api/appointments').then(response => this.appointments = response.data);
-      axios.get('/api/weekdays').then(response => this.days = response.data);
+      axios.get('/api/appointments/' + this.startDate).then(response => this.appointments = response.data);
+      axios.get('/api/weekdays/' + this.startDate).then(response => this.days = response.data);
+    },
+
+    watch: {
+        startDate: function(date) {
+            axios.get('/api/appointments/' + this.startDate).then(response => this.appointments = response.data);
+            axios.get('/api/weekdays/' + this.startDate).then(response => this.days = response.data); 
+        }
     },
 
     methods: {
@@ -52,15 +50,13 @@ const app = new Vue({
             this.modalperiod = period;
         },
 
-        onNewAppointment(title, body, day, period, data) {
+        onNewAppointment() {
             $('#myModal').modal('hide');
-            this.newAppointment = true;
-            this.title = title;
-            this.body = body;
-            this.day = day;
-            this.period = period;
-            this.data = data;
-            axios.get('/api/appointments').then(response => this.appointments = response.data);
+            axios.get('/api/appointments/' + this.startDate).then(response => this.appointments = response.data);
+        },
+
+        switchDate(date) {
+            this.startDate = date;
         }
     },
 
