@@ -1,18 +1,22 @@
 body {
     font-size: 1.4rem;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.nav-buttons {
+    margin: 0 auto;
 }
 
 .slide-fade-enter-active {
-  transition: all .8s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 .slide-fade-leave-active {
-  transition: all .8s ease-in-out;
+  transition: all .4s ease-in-out;
   // cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .slide-fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(5px);
+  transform: translateX(8px);
   opacity: 0;
 }
 
@@ -53,6 +57,7 @@ body {
 .grid-container {
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
+    // grid-template-columns: auto auto auto auto auto;
     @media only screen and (max-width: 600px) {
         grid-template-columns: auto
     }
@@ -82,5 +87,7 @@ body {
 
 .grid-item {
     text-align: center;
-    padding: 10px;
+    padding: 2px;
+    margin: 0;
+
 }

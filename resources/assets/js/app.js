@@ -3,14 +3,14 @@ require('./bootstrap');
 
 
 window.Vue = require('vue');
+window.moment = require('moment');
 
 Vue.component('weekday', require('./components/Weekday.vue'));
 Vue.component('lesson-period', require('./components/LessonPeriod.vue'));
 Vue.component('appointment', require('./components/Appointment.vue'));
 Vue.component('appointment-modal', require('./components/AppointmentModal.vue'));
 Vue.component('appt', require('./components/Appt.vue'));
-
-var moment = require('moment');
+Vue.component('nav-buttons', require('./components/NavButtons.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -23,6 +23,7 @@ const app = new Vue({
             days: '',
             modalday: '',
             modalperiod: '',
+            search: '',
         }
     },
 

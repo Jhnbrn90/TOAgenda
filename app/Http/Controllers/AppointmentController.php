@@ -24,9 +24,6 @@ class AppointmentController extends Controller
 
         $week = new WeekdaysCollection($date);
 
-        // $weekdays = $week->array();
-        // $today = $week->today();
-
         $emptyArray = $week->emptyAppointmentsArray();
 
         $appointments = Appointment::orderBy('date', 'ASC')

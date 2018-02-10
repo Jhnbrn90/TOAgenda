@@ -8352,23 +8352,27 @@ button.close {
 
 body {
   font-size: 1.4rem;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.nav-buttons {
+  margin: 0 auto;
 }
 
 .slide-fade-enter-active {
-  -webkit-transition: all .8s ease-in-out;
-  transition: all .8s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 
 .slide-fade-leave-active {
-  -webkit-transition: all .8s ease-in-out;
-  transition: all .8s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 
 .slide-fade-enter,
 .slide-fade-leave-to {
-  -webkit-transform: translateX(5px);
-          transform: translateX(5px);
+  -webkit-transform: translateX(8px);
+          transform: translateX(8px);
   opacity: 0;
 }
 
@@ -8447,6 +8451,7 @@ body {
 
 .grid-item {
   text-align: center;
-  padding: 10px;
+  padding: 2px;
+  margin: 0;
 }
 
