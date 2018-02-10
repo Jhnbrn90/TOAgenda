@@ -24,12 +24,14 @@ $factory->define(App\User::class, function (Faker $faker) {
 
 
 $factory->define(App\Appointment::class, function (Faker $faker) {
+    $date = $faker->dateTimeBetween(
+        \App\WeekdaysCollection::firstDay(), \App\WeekdaysCollection::lastDay()
+    )->format('d-m-Y');
+
     return [
         'user_id'       => function() { return factory('App\User')->create()->id; },
-        'date'          => $faker->dateTimeBetween(
-                                    \App\WeekdaysCollection::firstDay(),
-                                    \App\WeekdaysCollection::lastDay()
-                            )->format('d-m-Y'),
+        'date'          => $date,
+        'timestamp'     => \Carbon\Carbon::parse($date),
         'period'        => rand(1, 7),
         'title'         => ucfirst($faker->word),
         'body'          => $faker->paragraph,

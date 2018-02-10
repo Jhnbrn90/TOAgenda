@@ -14,7 +14,7 @@ class AppointmentController extends Controller
     public function index()
     {
         $periods = Config::getPeriods();
-        
+
         return view('appointment.index', compact('periods'));
     }
 
@@ -23,13 +23,15 @@ class AppointmentController extends Controller
         $date = $request->date ?: 'now';
 
         $week = new WeekdaysCollection($date);
-
         $emptyArray = $week->emptyAppointmentsArray();
 
-        $appointments = Appointment::orderBy('date', 'ASC')
-            ->get()
-            ->groupBy('date')
-            ->map(function($appt) { return $appt->groupBy('period'); });
+        $appointments =
+            Appointment::
+            Week($date)
+                ->orderBy('date', 'ASC')
+                ->get()
+                ->groupBy('date')
+                ->map(function($appt) { return $appt->groupBy('period'); });
 
         $appointments = array_replace_recursive($emptyArray, $appointments->toArray());
 
@@ -45,7 +47,7 @@ class AppointmentController extends Controller
         return $week->json();
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             'title'     => 'required',
@@ -55,11 +57,12 @@ class AppointmentController extends Controller
         ]);
 
         $appointment = Appointment::create([
-            'user_id'   => auth()->id(),
-            'title'     => $request->title,
-            'body'      => $request->body,
-            'date'      => $request->date,
-            'period'    => $request->period,
+            'user_id'       => auth()->id(),
+            'title'         => $request->title,
+            'body'          => $request->body,
+            'date'          => $request->date,
+            'timestamp'     => Carbon::parse($request->date),
+            'period'        => $request->period,
         ]);
 
         return $appointment;

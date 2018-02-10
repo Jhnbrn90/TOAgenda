@@ -59707,7 +59707,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['time', 'date'],
+    props: ['time', 'date', 'past'],
 
     methods: {
         setAppointment: function setAppointment() {
@@ -59740,6 +59740,14 @@ var render = function() {
         _c(
           "button",
           {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !this.past,
+                expression: "! this.past"
+              }
+            ],
             staticClass: "btn btn-link",
             attrs: { "data-toggle": "modal", "data-target": "#myModal" },
             on: {

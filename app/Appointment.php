@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
@@ -19,6 +20,14 @@ class Appointment extends Model
     public function creator() 
     {
         return $this->belongsTo(User::class, 'user_id'); 
+    }
+
+    public function scopeWeek($query, $date)
+    {
+        $endDate = Carbon::parse($date)->addDays(7);
+        $startDate = Carbon::parse($date);
+
+        return $query->whereDate('timestamp', '<=', $endDate)->whereDate('timestamp', '>=', $startDate);
     }
     
     
