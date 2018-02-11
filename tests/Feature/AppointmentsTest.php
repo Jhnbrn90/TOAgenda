@@ -14,18 +14,24 @@ class AppointmentsTest extends TestCase
     function appointments_for_this_week_show_on_the_homepage()
     {
         $this->signIn();
-        
-        // Create an appointment on a random day this week
-        // (See ModelFactory)
-        $appointment = create('App\Appointment');
 
-        // $this->get('/')->assertSee($appointment->title);
-        // assert that the appointments array for this week has our appointment
+        $appointment = create('App\Appointment', [
+            'user_id' => auth()->id(),
+            'date'    => $date = Carbon::parse('this wednesday')->format('d-m-Y'),
+            'period'  => $period = 1,
+        ]);
+
+        $this->assertDatabaseHas('appointments', [
+            'title' => $appointment->title,
+            'body' => $appointment->body
+        ]);
+
         $this->getJson('/api/appointments')
-            ->assertJsonFragment([
-                'title' => $appointment->title,
-                'body' => $appointment->body
-                ]);
+        ->assertJsonFragment([
+            'body' => $appointment->body,
+            'title' => $appointment->title
+        ]);
+
     }
 
     /** @test */
@@ -54,7 +60,7 @@ class AppointmentsTest extends TestCase
 
         $period = 1;
 
-        $appointment = make('App\Appointment', ['date' => $date]);
+        $appointment = make('App\Appointment', ['user_id' => auth()->id(), 'date' => $date]);
 
         $this->post("aanvraag/nieuw/{$date}/{$period}", $appointment->toArray())
             ->assertRedirect('/login');

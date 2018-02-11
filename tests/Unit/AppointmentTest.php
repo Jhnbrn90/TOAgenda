@@ -12,10 +12,11 @@ class AppointmentTest extends TestCase
 
     protected $appointment;
 
-    public function setUp() 
+    public function setUp()
     {
        parent::setUp();
-       $this->appointment = create('App\Appointment'); 
+       $this->user = create('App\User');
+       $this->appointment = create('App\Appointment', ['user_id' => $this->user->id]);
     }
 
     /** @test */

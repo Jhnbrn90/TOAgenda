@@ -59834,9 +59834,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['title', 'body'],
+    props: ['title', 'body', 'owner'],
     data: function data() {
         return {
             showBody: false
@@ -59870,11 +59874,16 @@ var render = function() {
       }
     }),
     _vm._v(" "),
-    _c("div", {
-      staticClass: "appointment-body",
-      class: this.showBody ? "" : "hidden",
-      domProps: { textContent: _vm._s(this.body) }
-    })
+    _c(
+      "div",
+      { staticClass: "appointment-body", class: this.showBody ? "" : "hidden" },
+      [
+        _vm._v("\n        " + _vm._s(this.body) + "\n        "),
+        _c("br"),
+        _vm._v(" "),
+        _c("small", [_vm._v(" " + _vm._s(this.owner.name) + " ")])
+      ]
+    )
   ])
 }
 var staticRenderFns = []

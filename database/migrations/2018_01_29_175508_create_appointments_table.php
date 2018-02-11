@@ -18,7 +18,7 @@ class CreateAppointmentsTable extends Migration
             $table->unsignedInteger('user_id');
 
             $table->string('date');
-            $table->datetime('timestamp');
+            $table->datetime('timestamp')->nullable();
             $table->unsignedInteger('period');
 
             $table->string('title');

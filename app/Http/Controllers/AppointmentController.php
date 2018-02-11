@@ -25,9 +25,7 @@ class AppointmentController extends Controller
         $week = new WeekdaysCollection($date);
         $emptyArray = $week->emptyAppointmentsArray();
 
-        $appointments =
-            Appointment::
-            Week($date)
+        $appointments =Appointment::Week($date)
                 ->orderBy('date', 'ASC')
                 ->get()
                 ->groupBy('date')
@@ -61,7 +59,6 @@ class AppointmentController extends Controller
             'title'         => $request->title,
             'body'          => $request->body,
             'date'          => $request->date,
-            'timestamp'     => Carbon::parse($request->date),
             'period'        => $request->period,
         ]);
 

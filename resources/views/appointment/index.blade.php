@@ -14,7 +14,7 @@
 
                 <lesson-period v-for="(period, index) in weekday" v-bind:key="day + '-' + index" :time="index" :date="day" :past="days[day].past" @set-date="setAppointment" >
 
-                    <appointment v-for="appointment in period" v-bind:key="appointment.id" :title="appointment.title" :body="appointment.body"></appointment>
+                    <appointment v-for="appointment in period" v-bind:key="appointment.id" :title="appointment.title" :body="appointment.body" :owner="appointment.creator"></appointment>
 
                 </lesson-period>
 
