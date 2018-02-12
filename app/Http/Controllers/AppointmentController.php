@@ -10,7 +10,6 @@ use App\Config;
 
 class AppointmentController extends Controller
 {
-
     public function index()
     {
         $periods = Config::getPeriods();

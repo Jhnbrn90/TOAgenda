@@ -8387,13 +8387,7 @@ body {
 }
 
 .today {
-  font-weight: 700;
-  border-left: 0.5px solid rgba(0, 0, 0, 0.1);
-  border-right: 0.5px solid lightgrey;
-  border-top: 0.5px solid lightgrey;
-  border-radius: 10px;
-  -webkit-box-shadow: 4px 3px lightgrey;
-          box-shadow: 4px 3px lightgrey;
+  font-weight: 1100;
 }
 
 .today h3.daytitle {
@@ -8402,6 +8396,7 @@ body {
 
 .today span.daydate {
   font-weight: 900;
+  color: darkred;
 }
 
 .weekday-title {

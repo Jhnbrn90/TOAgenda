@@ -33,8 +33,8 @@ class Appointment extends Model
 
     public function scopeWeek($query, $date)
     {
-        $endDate = Carbon::parse($date)->addDays(7);
-        $startDate = Carbon::parse($date);
+        $endDate = Carbon::parse($date)->endOfWeek()->endOfDay();
+        $startDate = Carbon::parse($date)->startOfWeek()->startOfDay();
 
         return $query->whereDate('timestamp', '<=', $endDate)->whereDate('timestamp', '>=', $startDate);
     }

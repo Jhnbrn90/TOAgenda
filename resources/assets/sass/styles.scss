@@ -33,14 +33,16 @@ body {
    }
   span.daydate {
     font-weight: 900;
+    color: darkred;
   }
 
-  font-weight: 700;
-  border-left: 0.5px solid rgba(0, 0, 0, 0.1);
-  border-right: 0.5px solid lightgrey;
-  border-top: 0.5px solid lightgrey;
-  border-radius: 10px;
-  box-shadow: 4px 3px lightgrey;
+  font-weight: 1100;
+
+  // border-left: 0.5px solid rgba(0, 0, 0, 0.1);
+  // border-right: 0.2px solid lightgrey;
+  // border-top: 0.5px solid lightgrey;
+  // border-radius: 10px;
+  // box-shadow: 2px 1px lightgrey;
 
 }
 
@@ -89,5 +91,4 @@ body {
     text-align: center;
     padding: 2px;
     margin: 0;
-
 }
