@@ -2,19 +2,25 @@
     <div class="appointment">
         <span class="appointment-title" v-text="this.title" v-on:click="toggleBody()"></span>
         <div class="appointment-body" :class="this.showBody ? '' : 'hidden'">
-            {{ this.body }}
+            <div class="appt-body"> {{ this.body }} </div>
             <br>
-            <small> {{ this.owner.name }} </small>
+            <small> {{ this.class + ' | ' + this.location + ' | ' + this.creator.name + ' | ' + this.type }} </small>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['title', 'body', 'owner'],
+    props: ['appointment'],
     data() {
         return {
             showBody: false,
+            title: this.appointment.title,
+            body: this.appointment.body,
+            creator: this.appointment.creator,
+            class: this.appointment.class,
+            location: this.appointment.location,
+            type: this.appointment.type,
         }
     },
 
@@ -25,3 +31,14 @@ export default {
     }
 }
 </script>
+
+<style>
+    .appointment {
+        box-shadow: 0px 24px 3px -24px black;
+
+    }
+
+    .appointment:last-of-type {
+        box-shadow: none;
+    }
+</style>

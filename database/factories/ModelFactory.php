@@ -22,15 +22,18 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
-
 $factory->define(App\Appointment::class, function (Faker $faker) {
     $date = $faker->dateTimeBetween('-4 weeks', '+4 weeks')->format('d-m-Y');
 
     return [
-        'user_id'       => function() { return \App\User::inRandomOrder()->first()->id; },
-        'date'          => $date,
-        'period'        => rand(1, 7),
-        'title'         => ucfirst($faker->word),
-        'body'          => $faker->paragraph,
+        'user_id' => function () { return \App\User::inRandomOrder()->first()->id; },
+        'date' => $date,
+        'period' => rand(1, 7),
+        'title' => ucfirst($faker->word),
+        'body' => $faker->paragraph,
+        'type' => 'Voorbereiding',
+        'class' => '4 VWO',
+        'subject' => 'Natuurkunde',
+        'location' => 'B0-1',
     ];
 });

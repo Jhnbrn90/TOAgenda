@@ -49,6 +49,10 @@ class AppointmentController extends Controller
             'title' => 'required',
             'body' => 'required',
             'date' => 'required',
+            'class' => 'required',
+            'subject' => 'required',
+            'location' => 'required',
+            'type' => 'required',
             'period' => 'required',
         ]);
 
@@ -58,6 +62,10 @@ class AppointmentController extends Controller
             'body' => $request->body,
             'date' => $request->date,
             'period' => $request->period,
+            'class' => $request->class,
+            'subject' => $request->subject,
+            'type' => $request->type,
+            'location' => $request->location,
         ]);
 
         return $appointment;

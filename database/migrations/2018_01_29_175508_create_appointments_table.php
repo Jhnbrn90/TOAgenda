@@ -23,6 +23,12 @@ class CreateAppointmentsTable extends Migration
 
             $table->string('title');
             $table->mediumText('body');
+            $table->string('type');
+            $table->string('class');
+            $table->string('subject');
+            $table->string('location');
+            $table->boolean('accepted')->default(false);
+            $table->text('message')->nullable();
 
             $table->timestamps();
         });

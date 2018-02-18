@@ -20,14 +20,40 @@
 
                         <div class="form-group">
                             <label for="title">Titel: </label>
-                            <input type="text" class="form-control" id="title" placeholder="Titel" v-model="title" autofocus required>
+                            <input type="text" class="form-control" id="title" placeholder="Titel" v-model="form.title" autofocus required>
                         </div>
                         <div class="form-group">
                             <label for="body">Omschrijving: </label>
-                            <textarea id="body" name="body" v-model="body" class="form-control" rows="3"
+                            <textarea id="body" name="body" v-model="form.body" class="form-control" rows="3"
                                       placeholder="Beschijving van het practicum: proefopstelling, lesmateriaal, etc. Bij assistentie: geef ook aan om welk lesdeel het gaat (hele les, eerste deel, tweede deel)"
                                       required></textarea>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="klas">Klas: </label>
+                            <input type="text" class="form-control" id="class" name="class" placeholder="3HD" v-model="form.class" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Vak: </label>
+                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Natuurkunde, Scheikunde, etc." v-model="form.subject" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Locatie: </label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="B0-1" v-model="form.place" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type" class="col-form-label"><strong>Type: </strong></label>
+                            <select class="form-control custom-select" id="type" name="type" v-model="form.tasktype" required>
+                                <option disabled selected>Kies een type</option>
+                                <option value="voorbereiding">Voorbereiding</option>
+                                <option value="assistentie">Assistentie</option>
+                                <option value="anders">Anders</option>
+                            </select>
+                        </div>
+    
 
                     </form>
                 </div>
@@ -47,22 +73,24 @@ export default {
 
     data() {
         return {
-            title: '',
-            body: '',
+            form: {},
         }
     },
 
     methods: {
       newAppointment() {
           axios.post(this.actionURL, {
-              'title': this.title,
-              'body': this.body,
+              'title': this.form.title,
+              'body': this.form.body,
+              'class': this.form.class,
+              'subject': this.form.subject,
+              'location': this.form.place,
+              'type': this.form.tasktype,
               'date': this.day,
               'period': this.period,
           }).then(response => {
-              this.title = '';
-              this.body = '';
-              this.$emit('new-appointment', this.title, this.body, this.day, this.period, response.data);
+              this.form = {};
+            this.$emit('new-appointment');
           });
 
       }
