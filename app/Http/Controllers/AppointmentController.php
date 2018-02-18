@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\WeekdaysCollection;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Config;
 
@@ -24,11 +23,11 @@ class AppointmentController extends Controller
         $week = new WeekdaysCollection($date);
         $emptyArray = $week->emptyAppointmentsArray();
 
-        $appointments =Appointment::Week($date)
+        $appointments = Appointment::Week($date)
                 ->orderBy('date', 'ASC')
                 ->get()
                 ->groupBy('date')
-                ->map(function($appt) { return $appt->groupBy('period'); });
+                ->map(function ($appt) { return $appt->groupBy('period'); });
 
         $appointments = array_replace_recursive($emptyArray, $appointments->toArray());
 
@@ -37,7 +36,7 @@ class AppointmentController extends Controller
 
     public function getWeekdays(Request $request)
     {
-        $date = $request->date ? : 'now';
+        $date = $request->date ?: 'now';
 
         $week = new WeekdaysCollection($date);
 
@@ -47,18 +46,18 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'     => 'required',
-            'body'      => 'required',
-            'date'      => 'required',
-            'period'    => 'required',
+            'title' => 'required',
+            'body' => 'required',
+            'date' => 'required',
+            'period' => 'required',
         ]);
 
         $appointment = Appointment::create([
-            'user_id'       => auth()->id(),
-            'title'         => $request->title,
-            'body'          => $request->body,
-            'date'          => $request->date,
-            'period'        => $request->period,
+            'user_id' => auth()->id(),
+            'title' => $request->title,
+            'body' => $request->body,
+            'date' => $request->date,
+            'period' => $request->period,
         ]);
 
         return $appointment;

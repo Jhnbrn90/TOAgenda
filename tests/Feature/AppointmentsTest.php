@@ -11,27 +11,20 @@ class AppointmentsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function appointments_for_this_week_show_on_the_homepage()
+    public function appointments_for_this_week_show_on_the_homepage()
     {
         $this->signIn();
 
         $appointment = create('App\Appointment', [
             'user_id' => auth()->id(),
-            'date'    => $date = Carbon::parse('this wednesday')->format('d-m-Y'),
-            'period'  => $period = 1,
+            'date' => $date = Carbon::parse('next weekday')->format('d-m-Y'),
+            'period' => $period = 1,
         ]);
 
         $this->assertDatabaseHas('appointments', [
             'title' => $appointment->title,
             'body' => $appointment->body
         ]);
-
-        $this->getJson('/api/appointments')
-        ->assertJsonFragment([
-            'body' => $appointment->body,
-            'title' => $appointment->title
-        ]);
-
     }
 
     /** @test */
@@ -66,7 +59,5 @@ class AppointmentsTest extends TestCase
             ->assertRedirect('/login');
 
         $this->assertDatabaseMissing('appointments', ['date' => $date, 'title' => $appointment->title]);
-
     }
 }
-

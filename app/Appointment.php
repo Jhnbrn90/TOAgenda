@@ -13,7 +13,8 @@ class Appointment extends Model
 
     protected $guarded = [];
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::created(function ($appointment) {
@@ -33,11 +34,15 @@ class Appointment extends Model
 
     public function scopeWeek($query, $date)
     {
-        $endDate = Carbon::parse($date)->endOfWeek()->endOfDay();
-        $startDate = Carbon::parse($date)->startOfWeek()->startOfDay();
+        // check if the $date is a saturday or sunday
+        if (Carbon::parse($date)->isWeekend()) {
+            $endDate = Carbon::parse($date)->addWeek()->endOfWeek()->endOfDay();
+            $startDate = Carbon::parse($date)->addWeek()->startOfWeek()->startOfDay();
+        } else {
+            $endDate = Carbon::parse($date)->endOfWeek()->endOfDay();
+            $startDate = Carbon::parse($date)->startOfWeek()->startOfDay();
+        }
 
         return $query->whereDate('timestamp', '<=', $endDate)->whereDate('timestamp', '>=', $startDate);
     }
-
-
 }
