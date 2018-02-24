@@ -47,12 +47,12 @@ body {
 }
 
 .weekday-title {
-    color: #000;
+    color: rgb(63, 62, 62);
     padding-bottom: 10px;
 }
 
 .appointment-time {
-    color: #000;
+    color: rgb(63, 62, 62);
     margin-top: -5px;
 }
 
@@ -82,6 +82,11 @@ body {
   &-body {
     font-size: 12px;
   }
+
+  &-info {
+    color: rgb(153, 153, 153);
+  }
+
   &-hidden {
     display: none;
   }

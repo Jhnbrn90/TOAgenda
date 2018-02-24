@@ -28,12 +28,12 @@
                                       placeholder="Beschijving van het practicum: proefopstelling, lesmateriaal, etc. Bij assistentie: geef ook aan om welk lesdeel het gaat (hele les, eerste deel, tweede deel)"
                                       required></textarea>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="klas">Klas: </label>
                             <input type="text" class="form-control" id="class" name="class" placeholder="3HD" v-model="form.class" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="subject">Vak: </label>
                             <input type="text" class="form-control" id="subject" name="subject" placeholder="Natuurkunde, Scheikunde, etc." v-model="form.subject" required>
@@ -45,22 +45,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type" class="col-form-label"><strong>Type: </strong></label>
-                            <select class="form-control custom-select" id="type" name="type" v-model="form.tasktype" required>
-                                <option disabled selected>Kies een type</option>
-                                <option value="voorbereiding">Voorbereiding</option>
-                                <option value="assistentie">Assistentie</option>
+                            <label for="type"><strong>Type: </strong></label>
+                            <select class="form-control" id="type" name="type" v-model="form.tasktype" required>
+                                <option value="" selected>Kies een optie</option>
+                                <option value="voorbereiding">Voorbereiden</option>
+                                <option value="assistentie">Assisteren</option>
                                 <option value="anders">Anders</option>
                             </select>
                         </div>
-    
 
                     </form>
                 </div>
+
                 <div class="modal-footer" style="text-align: left;">
                     <button @click="newAppointment()" class="btn btn-success">Afspraak inplannen</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
                 </div>
+
             </div>
 
         </div>
@@ -90,8 +91,8 @@ export default {
               'period': this.period,
           }).then(response => {
               this.form = {};
-            this.$emit('new-appointment');
-          });
+              this.$emit('new-appointment');
+          }).catch(error => flash('Niet alle velden zijn juist ingevuld.'));
 
       }
     },

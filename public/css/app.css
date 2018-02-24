@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);@charset "UTF-8";
 
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
@@ -8400,12 +8400,12 @@ body {
 }
 
 .weekday-title {
-  color: #000;
+  color: #3f3e3e;
   padding-bottom: 10px;
 }
 
 .appointment-time {
-  color: #000;
+  color: #3f3e3e;
   margin-top: -5px;
 }
 
@@ -8438,6 +8438,10 @@ body {
 
 .appointment-body {
   font-size: 12px;
+}
+
+.appointment-info {
+  color: #999999;
 }
 
 .appointment-hidden {

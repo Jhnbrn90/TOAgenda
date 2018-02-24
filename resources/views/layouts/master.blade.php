@@ -18,10 +18,12 @@
         @include('layouts.navbar')
 
         @yield('content')
+
+        <flash message="{{ session('flash') }}"></flash>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    
+
 </body>
 </html>

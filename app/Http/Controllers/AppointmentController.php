@@ -46,25 +46,25 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-            'date' => 'required',
-            'class' => 'required',
-            'subject' => 'required',
+            'title'    => 'required',
+            'body'     => 'required',
+            'date'     => 'required',
+            'class'    => 'required',
+            'subject'  => 'required',
             'location' => 'required',
-            'type' => 'required',
-            'period' => 'required',
+            'type'     => 'required',
+            'period'   => 'required',
         ]);
 
         $appointment = Appointment::create([
-            'user_id' => auth()->id(),
-            'title' => $request->title,
-            'body' => $request->body,
-            'date' => $request->date,
-            'period' => $request->period,
-            'class' => $request->class,
-            'subject' => $request->subject,
-            'type' => $request->type,
+            'user_id'  => auth()->id(),
+            'title'    => $request->title,
+            'body'     => $request->body,
+            'date'     => $request->date,
+            'period'   => $request->period,
+            'class'    => $request->class,
+            'subject'  => $request->subject,
+            'type'     => $request->type,
             'location' => $request->location,
         ]);
 

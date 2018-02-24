@@ -4,7 +4,12 @@
         <div class="appointment-body" :class="this.showBody ? '' : 'hidden'">
             <div class="appt-body"> {{ this.body }} </div>
             <br>
-            <small> {{ this.class + ' | ' + this.location + ' | ' + this.creator.name + ' | ' + this.type }} </small>
+
+            <div class="appointment-info">
+                <u>{{this.type}}</u> <br>
+                {{ this.class }} | {{ this.subject }} | {{ this.location }} <br>
+                {{ this.creator.name }}
+            </div>
         </div>
     </div>
 </template>
@@ -21,6 +26,7 @@ export default {
             class: this.appointment.class,
             location: this.appointment.location,
             type: this.appointment.type,
+            subject: this.appointment.subject,
         }
     },
 
@@ -35,7 +41,8 @@ export default {
 <style>
     .appointment {
         box-shadow: 0px 24px 3px -24px black;
-
+        margin-bottom: 12px;
+        padding-bottom: 6px;
     }
 
     .appointment:last-of-type {

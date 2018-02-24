@@ -15,9 +15,9 @@ use Faker\Generator as Faker;
 
 $factory->define(App\User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'name'           => $faker->name,
+        'email'          => $faker->unique()->safeEmail,
+        'password'       => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
     ];
 });
@@ -26,14 +26,14 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
     $date = $faker->dateTimeBetween('-4 weeks', '+4 weeks')->format('d-m-Y');
 
     return [
-        'user_id' => function () { return \App\User::inRandomOrder()->first()->id; },
-        'date' => $date,
-        'period' => rand(1, 7),
-        'title' => ucfirst($faker->word),
-        'body' => $faker->paragraph,
-        'type' => 'Voorbereiding',
-        'class' => '4 VWO',
-        'subject' => 'Natuurkunde',
+        'user_id'  => function () { return \App\User::inRandomOrder()->first()->id; },
+        'date'     => $date,
+        'period'   => rand(1, 7),
+        'title'    => ucfirst($faker->word),
+        'body'     => $faker->paragraph,
+        'type'     => 'Voorbereiding',
+        'class'    => '4 VWO',
+        'subject'  => 'Natuurkunde',
         'location' => 'B0-1',
     ];
 });
