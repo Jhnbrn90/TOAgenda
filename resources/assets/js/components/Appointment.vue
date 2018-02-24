@@ -10,6 +10,9 @@
                 {{ this.class }} | {{ this.subject }} | {{ this.location }} <br>
                 {{ this.creator.name }}
             </div>
+            <div class="appointment-delete" v-if="canDelete">
+                <button class="btn btn-link btn-danger" @click="deleteAppointment()">Verwijderen</button>
+            </div>
         </div>
     </div>
 </template>
@@ -30,9 +33,26 @@ export default {
         }
     },
 
+    computed: {
+        canDelete() {
+            return window.App.user.id == this.appointment.user_id;
+        }
+    },
+
     methods: {
       toggleBody() {
           this.showBody = ! this.showBody;
+      },
+
+      deleteAppointment() {
+          if (confirm('Weet je het zeker?')) {
+            axios.delete(`/aanvraag/${this.appointment.id}`);
+
+            $(this.$el).fadeOut(300, () => {
+                flash('De afspraak is verwijderd.');
+            });
+          }
+
       }
     }
 }
@@ -48,4 +68,13 @@ export default {
     .appointment:last-of-type {
         box-shadow: none;
     }
+
+    .appointment-delete>button {
+        color: darkred;
+    }
+    .appointment-delete>button:hover {
+        color: red;
+    }
+
+
 </style>

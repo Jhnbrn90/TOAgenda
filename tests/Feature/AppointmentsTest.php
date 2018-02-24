@@ -16,14 +16,14 @@ class AppointmentsTest extends TestCase
         $this->signIn();
 
         $appointment = create('App\Appointment', [
-            'user_id' => auth()->id(),
-            'date' => $date = Carbon::parse('next weekday')->format('d-m-Y'),
-            'period' => $period = 1,
-        ]);
+            'user_id'     => auth()->id(),
+            'date'        => $date = Carbon::parse('next weekday')->format('d-m-Y'),
+            'period'      => $period = 1,
+            ]);
 
         $this->assertDatabaseHas('appointments', [
             'title' => $appointment->title,
-            'body' => $appointment->body
+            'body'  => $appointment->body
         ]);
     }
 
@@ -59,5 +59,35 @@ class AppointmentsTest extends TestCase
             ->assertRedirect('/login');
 
         $this->assertDatabaseMissing('appointments', ['date' => $date, 'title' => $appointment->title]);
+    }
+
+    /** @test */
+    public function guests_can_not_delete_appointments()
+    {
+        $this->withExceptionHandling();
+
+        $appointment = create('App\Appointment', ['user_id' => '221']);
+
+        $this->delete("/aanvraag/{$appointment->id}")
+            ->assertRedirect('/login');
+
+        $this->signIn();
+
+        $this->delete("/aanvraag/{$appointment->id}")
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function authorized_users_can_delete_their_appointments()
+    {
+        $this->signIn();
+
+        $appointment = create('App\Appointment', ['user_id' => auth()->id()]);
+
+        $response = $this->delete("/aanvraag/{$appointment->id}");
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('appointments', $appointment->toArray());
     }
 }

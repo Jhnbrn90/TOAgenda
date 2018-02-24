@@ -46,7 +46,7 @@ export default {
     .alert-flash {
         position: fixed;
         text-align: center;
-        top: 15%;
+        top: 1%;
         width:100%;
         z-index: 30000;
     }

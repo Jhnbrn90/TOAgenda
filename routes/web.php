@@ -15,7 +15,9 @@ Auth::routes();
 
 Route::get('/home', 'AppointmentController@index')->name('home');
 
-Route::get('/', 'AppointmentController@index')->middleware('auth');
+Route::get('/', 'AppointmentController@index');
+
+Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
 
 Route::get('/api/appointments', 'AppointmentController@getAppointments');
 Route::get('/api/appointments/{date}', 'AppointmentController@getAppointments');
@@ -23,4 +25,4 @@ Route::get('/api/appointments/{date}', 'AppointmentController@getAppointments');
 Route::get('/api/weekdays', 'AppointmentController@getWeekdays');
 Route::get('/api/weekdays/{date}', 'AppointmentController@getWeekdays');
 
-Route::post('/aanvraag/nieuw/{date}/{period}', 'AppointmentController@store')->middleware('auth');
+Route::post('/aanvraag/nieuw/{date}/{period}', 'AppointmentController@store');

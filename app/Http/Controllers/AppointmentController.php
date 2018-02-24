@@ -9,6 +9,11 @@ use App\Config;
 
 class AppointmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $periods = Config::getPeriods();
@@ -69,5 +74,18 @@ class AppointmentController extends Controller
         ]);
 
         return $appointment;
+    }
+
+    public function destroy(Appointment $appointment)
+    {
+        $this->authorize('update', $appointment);
+
+        // if ($appointment->user_id != auth()->id()) {
+        //     abort(403, 'U heeft geen toegang.');
+        // }
+
+        $appointment->delete();
+
+        return response([], 204);
     }
 }

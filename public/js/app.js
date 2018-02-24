@@ -59902,7 +59902,7 @@ exports = module.exports = __webpack_require__(131)(false);
 
 
 // module
-exports.push([module.i, "\n.alert-flash {\n    position: fixed;\n    text-align: center;\n    top: 15%;\n    width:100%;\n    z-index: 30000;\n}\n", ""]);
+exports.push([module.i, "\n.alert-flash {\n    position: fixed;\n    text-align: center;\n    top: 1%;\n    width:100%;\n    z-index: 30000;\n}\n", ""]);
 
 // exports
 
@@ -60366,7 +60366,7 @@ exports = module.exports = __webpack_require__(131)(false);
 
 
 // module
-exports.push([module.i, "\n.appointment {\n    -webkit-box-shadow: 0px 24px 3px -24px black;\n            box-shadow: 0px 24px 3px -24px black;\n    margin-bottom: 12px;\n    padding-bottom: 6px;\n}\n.appointment:last-of-type {\n    -webkit-box-shadow: none;\n            box-shadow: none;\n}\n", ""]);
+exports.push([module.i, "\n.appointment {\n    -webkit-box-shadow: 0px 24px 3px -24px black;\n            box-shadow: 0px 24px 3px -24px black;\n    margin-bottom: 12px;\n    padding-bottom: 6px;\n}\n.appointment:last-of-type {\n    -webkit-box-shadow: none;\n            box-shadow: none;\n}\n.appointment-delete>button {\n    color: darkred;\n}\n.appointment-delete>button:hover {\n    color: red;\n}\n\n\n", ""]);
 
 // exports
 
@@ -60377,6 +60377,9 @@ exports.push([module.i, "\n.appointment {\n    -webkit-box-shadow: 0px 24px 3px 
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -60410,9 +60413,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
+    computed: {
+        canDelete: function canDelete() {
+            return window.App.user.id == this.appointment.user_id;
+        }
+    },
+
     methods: {
         toggleBody: function toggleBody() {
             this.showBody = !this.showBody;
+        },
+        deleteAppointment: function deleteAppointment() {
+            if (confirm('Weet je het zeker?')) {
+                axios.delete('/aanvraag/' + this.appointment.id);
+
+                $(this.$el).fadeOut(300, function () {
+                    flash('De afspraak is verwijderd.');
+                });
+            }
         }
     }
 });
@@ -60461,7 +60479,24 @@ var render = function() {
           ),
           _c("br"),
           _vm._v("\n            " + _vm._s(this.creator.name) + "\n        ")
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.canDelete
+          ? _c("div", { staticClass: "appointment-delete" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-link btn-danger",
+                  on: {
+                    click: function($event) {
+                      _vm.deleteAppointment()
+                    }
+                  }
+                },
+                [_vm._v("Verwijderen")]
+              )
+            ])
+          : _vm._e()
       ]
     )
   ])
