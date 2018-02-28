@@ -30,6 +30,7 @@ class AppointmentController extends Controller
 
         $appointments = Appointment::Week($date)
                 ->orderBy('date', 'ASC')
+                ->orderBy('id', 'ASC')
                 ->get()
                 ->groupBy('date')
                 ->map(function ($appt) { return $appt->groupBy('period'); });
