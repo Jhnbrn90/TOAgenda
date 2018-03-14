@@ -6,7 +6,7 @@
             <br>
 
             <div class="appointment-info">
-                <u>{{this.type}}</u> <br>
+                <u>{{ this.type }}</u> <br>
                 {{ this.class }} | {{ this.subject }} | {{ this.location }} <br>
                 {{ this.creator.name }}
             </div>
@@ -19,62 +19,60 @@
 
 <script>
 export default {
-    props: ['appointment'],
-    data() {
-        return {
-            showBody: false,
-            title: this.appointment.title,
-            body: this.appointment.body,
-            creator: this.appointment.creator,
-            class: this.appointment.class,
-            location: this.appointment.location,
-            type: this.appointment.type,
-            subject: this.appointment.subject,
-        }
+  props: ["appointment", "past"],
+
+  data() {
+    return {
+      showBody: false,
+      title: this.appointment.title,
+      body: this.appointment.body,
+      creator: this.appointment.creator,
+      class: this.appointment.class,
+      location: this.appointment.location,
+      type: this.appointment.type,
+      subject: this.appointment.subject
+    };
+  },
+
+  computed: {
+    canDelete() {
+      return window.App.user.id == this.appointment.user_id && !this.past;
+    }
+  },
+
+  methods: {
+    toggleBody() {
+      this.showBody = !this.showBody;
     },
 
-    computed: {
-        canDelete() {
-            return window.App.user.id == this.appointment.user_id;
-        }
-    },
+    deleteAppointment() {
+      if (confirm("Weet je het zeker?")) {
+        axios.delete(`/aanvraag/${this.appointment.id}`);
 
-    methods: {
-      toggleBody() {
-          this.showBody = ! this.showBody;
-      },
-
-      deleteAppointment() {
-          if (confirm('Weet je het zeker?')) {
-            axios.delete(`/aanvraag/${this.appointment.id}`);
-
-            $(this.$el).fadeOut(300, () => {
-                flash('De afspraak is verwijderd.');
-            });
-          }
-
+        $(this.$el).fadeOut(300, () => {
+          flash("De afspraak is verwijderd.");
+        });
       }
     }
-}
+  }
+};
 </script>
 
 <style>
-    .appointment {
-        box-shadow: 0px 24px 3px -24px black;
-        margin-bottom: 12px;
-        padding-bottom: 6px;
-    }
+.appointment {
+  box-shadow: 0px 24px 3px -24px black;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+}
 
-    .appointment:last-of-type {
-        box-shadow: none;
-    }
+.appointment:last-of-type {
+  box-shadow: none;
+}
 
-    .appointment-delete>button {
-        color: darkred;
-    }
-    .appointment-delete>button:hover {
-        color: red;
-    }
-
-
+.appointment-delete > button {
+  color: darkred;
+}
+.appointment-delete > button:hover {
+  color: red;
+}
 </style>

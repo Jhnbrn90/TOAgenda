@@ -32,6 +32,7 @@
                             v-for="appointment in period"
                             v-bind:key="appointment.id"
                             :appointment="appointment"
+                            :past="days[day].past"
                         ></appointment>
 
                     </lesson-period>
