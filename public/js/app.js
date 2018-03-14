@@ -60366,7 +60366,7 @@ exports = module.exports = __webpack_require__(131)(false);
 
 
 // module
-exports.push([module.i, "\n.appointment {\n    -webkit-box-shadow: 0px 24px 3px -24px black;\n            box-shadow: 0px 24px 3px -24px black;\n    margin-bottom: 12px;\n    padding-bottom: 6px;\n}\n.appointment:last-of-type {\n    -webkit-box-shadow: none;\n            box-shadow: none;\n}\n.appointment-delete>button {\n    color: darkred;\n}\n.appointment-delete>button:hover {\n    color: red;\n}\n\n\n", ""]);
+exports.push([module.i, "\n.appointment {\n  -webkit-box-shadow: 0px 24px 3px -24px black;\n          box-shadow: 0px 24px 3px -24px black;\n  margin-bottom: 12px;\n  padding-bottom: 6px;\n}\n.appointment:last-of-type {\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n.appointment-delete > button {\n  color: darkred;\n}\n.appointment-delete > button:hover {\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -60398,41 +60398,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['appointment'],
-    data: function data() {
-        return {
-            showBody: false,
-            title: this.appointment.title,
-            body: this.appointment.body,
-            creator: this.appointment.creator,
-            class: this.appointment.class,
-            location: this.appointment.location,
-            type: this.appointment.type,
-            subject: this.appointment.subject
-        };
-    },
+  props: ["appointment", "past"],
+
+  data: function data() {
+    return {
+      showBody: false,
+      title: this.appointment.title,
+      body: this.appointment.body,
+      creator: this.appointment.creator,
+      class: this.appointment.class,
+      location: this.appointment.location,
+      type: this.appointment.type,
+      subject: this.appointment.subject
+    };
+  },
 
 
-    computed: {
-        canDelete: function canDelete() {
-            return window.App.user.id == this.appointment.user_id;
-        }
-    },
-
-    methods: {
-        toggleBody: function toggleBody() {
-            this.showBody = !this.showBody;
-        },
-        deleteAppointment: function deleteAppointment() {
-            if (confirm('Weet je het zeker?')) {
-                axios.delete('/aanvraag/' + this.appointment.id);
-
-                $(this.$el).fadeOut(300, function () {
-                    flash('De afspraak is verwijderd.');
-                });
-            }
-        }
+  computed: {
+    canDelete: function canDelete() {
+      return window.App.user.id == this.appointment.user_id && !this.past;
     }
+  },
+
+  methods: {
+    toggleBody: function toggleBody() {
+      this.showBody = !this.showBody;
+    },
+    deleteAppointment: function deleteAppointment() {
+      if (confirm("Weet je het zeker?")) {
+        axios.delete("/aanvraag/" + this.appointment.id);
+
+        $(this.$el).fadeOut(300, function () {
+          flash("De afspraak is verwijderd.");
+        });
+      }
+    }
+  }
 });
 
 /***/ }),
