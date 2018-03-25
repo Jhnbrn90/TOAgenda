@@ -49,7 +49,17 @@ const app = new Vue({
   },
 
   watch: {
-    startDate: function(date) {
+    startDate: function() {
+      this.refreshData();
+    },
+
+    filter: function() {
+      this.refreshData();
+    }
+  },
+
+  methods: {
+    refreshData() {
       let appointmentApi = "/api/appointments/" + this.startDate;
 
       if (this.filter) {
@@ -64,23 +74,6 @@ const app = new Vue({
         .then(response => (this.days = response.data));
     },
 
-    filter: function(date) {
-      let appointmentApi = "/api/appointments/" + this.startDate;
-
-      if (this.filter) {
-        appointmentApi = "/api/appointments/filter/" + this.startDate;
-      }
-
-      axios
-        .get(appointmentApi)
-        .then(response => (this.appointments = response.data));
-      axios
-        .get("/api/weekdays/" + this.startDate)
-        .then(response => (this.days = response.data));
-    }
-  },
-
-  methods: {
     escapeKeyListener(evt) {
       if (evt.keyCode == 27 && this.modalOpen) {
         this.modalOpen = false;

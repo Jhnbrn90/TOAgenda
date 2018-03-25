@@ -9,20 +9,20 @@
                 </slot>
                 <button class="btn btn-link"
                         @click.prevent="setAppointment"
-                        data-toggle="modal" data-target="#myModal" v-show="! this.past">Inplannen</button>
+                        data-toggle="modal" data-target="#myModal" v-show="! this.past"> Inplannen</button>
             </div>
         </div>
 </template>
 
 <script>
 export default {
-    props: ['time', 'date', 'past'],
+  props: ["time", "date", "past"],
 
-    methods: {
-        setAppointment() {
-            this.$emit('set-date', this.date, this.time);
-        }
+  methods: {
+    setAppointment() {
+      this.$emit("set-date", this.date, this.time);
     }
-}
+  }
+};
 </script>
 

@@ -1,6 +1,6 @@
 <template>
     <div class="appointment">
-        <span class="appointment-title" v-text="this.title" v-on:click="toggleBody()"></span>
+        <span class="appointment-title" :class="this.accepted ? 'accepted' : 'waiting' " v-text="this.title" v-on:click="toggleBody()"></span>
         <div class="appointment-body" :class="this.showBody ? '' : 'hidden'">
             <div class="appt-body"> {{ this.body }} </div>
             <br>
@@ -25,6 +25,7 @@ export default {
     return {
       showBody: false,
       title: this.appointment.title,
+      accepted: this.appointment.accepted,
       body: this.appointment.body,
       creator: this.appointment.creator,
       class: this.appointment.class,
@@ -59,6 +60,14 @@ export default {
 </script>
 
 <style>
+.accepted {
+  color: black;
+}
+
+.waiting {
+  color: lightgrey;
+}
+
 .appointment {
   box-shadow: 0px 24px 3px -24px black;
   margin-bottom: 12px;

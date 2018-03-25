@@ -17613,7 +17613,7 @@ function applyToTag (styleElement, obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(134);
-module.exports = __webpack_require__(188);
+module.exports = __webpack_require__(191);
 
 
 /***/ }),
@@ -17628,9 +17628,10 @@ Vue.component("flash", __webpack_require__(162));
 Vue.component("weekday", __webpack_require__(168));
 Vue.component("lesson-period", __webpack_require__(171));
 Vue.component("appointment", __webpack_require__(174));
-Vue.component("appointment-modal", __webpack_require__(179));
-Vue.component("appt", __webpack_require__(182));
-Vue.component("nav-buttons", __webpack_require__(185));
+Vue.component("my-appointments-button", __webpack_require__(179));
+Vue.component("appointment-modal", __webpack_require__(182));
+Vue.component("appt", __webpack_require__(185));
+Vue.component("nav-buttons", __webpack_require__(188));
 
 var app = new Vue({
   el: "#app",
@@ -17639,17 +17640,24 @@ var app = new Vue({
     return {
       startDate: "now",
       moment: moment,
-      appointments: "",
-      days: "",
+      appointments: [],
+      days: [],
       modalday: "",
       modalperiod: "",
-      search: ""
+      search: "",
+      filter: false
     };
   },
   mounted: function mounted() {
     var _this = this;
 
-    axios.get("/api/appointments/" + this.startDate).then(function (response) {
+    var appointmentApi = "/api/appointments/" + this.startDate;
+
+    if (this.filter) {
+      appointmentApi = "/api/appointments/filter/" + this.startDate;
+    }
+
+    axios.get(appointmentApi).then(function (response) {
       return _this.appointments = response.data;
     });
     axios.get("/api/weekdays/" + this.startDate).then(function (response) {
@@ -17659,19 +17667,32 @@ var app = new Vue({
 
 
   watch: {
-    startDate: function startDate(date) {
+    startDate: function startDate() {
+      this.refreshData();
+    },
+
+    filter: function filter() {
+      this.refreshData();
+    }
+  },
+
+  methods: {
+    refreshData: function refreshData() {
       var _this2 = this;
 
-      axios.get("/api/appointments/" + this.startDate).then(function (response) {
+      var appointmentApi = "/api/appointments/" + this.startDate;
+
+      if (this.filter) {
+        appointmentApi = "/api/appointments/filter/" + this.startDate;
+      }
+
+      axios.get(appointmentApi).then(function (response) {
         return _this2.appointments = response.data;
       });
       axios.get("/api/weekdays/" + this.startDate).then(function (response) {
         return _this2.days = response.data;
       });
-    }
-  },
-
-  methods: {
+    },
     escapeKeyListener: function escapeKeyListener(evt) {
       if (evt.keyCode == 27 && this.modalOpen) {
         this.modalOpen = false;
@@ -17691,6 +17712,9 @@ var app = new Vue({
     },
     switchDate: function switchDate(date) {
       this.startDate = date;
+    },
+    toggleFilter: function toggleFilter() {
+      this.filter = !this.filter;
     }
   }
 });
@@ -60213,13 +60237,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['time', 'date', 'past'],
+  props: ["time", "date", "past"],
 
-    methods: {
-        setAppointment: function setAppointment() {
-            this.$emit('set-date', this.date, this.time);
-        }
+  methods: {
+    setAppointment: function setAppointment() {
+      this.$emit("set-date", this.date, this.time);
     }
+  }
 });
 
 /***/ }),
@@ -60263,7 +60287,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Inplannen")]
+          [_vm._v(" Inplannen")]
         )
       ],
       2
@@ -60366,7 +60390,7 @@ exports = module.exports = __webpack_require__(131)(false);
 
 
 // module
-exports.push([module.i, "\n.appointment {\n  -webkit-box-shadow: 0px 24px 3px -24px black;\n          box-shadow: 0px 24px 3px -24px black;\n  margin-bottom: 12px;\n  padding-bottom: 6px;\n}\n.appointment:last-of-type {\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n.appointment-delete > button {\n  color: darkred;\n}\n.appointment-delete > button:hover {\n  color: red;\n}\n", ""]);
+exports.push([module.i, "\n.accepted {\n  color: black;\n}\n.waiting {\n  color: lightgrey;\n}\n.appointment {\n  -webkit-box-shadow: 0px 24px 3px -24px black;\n          box-shadow: 0px 24px 3px -24px black;\n  margin-bottom: 12px;\n  padding-bottom: 6px;\n}\n.appointment:last-of-type {\n  -webkit-box-shadow: none;\n          box-shadow: none;\n}\n.appointment-delete > button {\n  color: darkred;\n}\n.appointment-delete > button:hover {\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -60404,6 +60428,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       showBody: false,
       title: this.appointment.title,
+      accepted: this.appointment.accepted,
       body: this.appointment.body,
       creator: this.appointment.creator,
       class: this.appointment.class,
@@ -60447,6 +60472,7 @@ var render = function() {
   return _c("div", { staticClass: "appointment" }, [
     _c("span", {
       staticClass: "appointment-title",
+      class: this.accepted ? "accepted" : "waiting",
       domProps: { textContent: _vm._s(this.title) },
       on: {
         click: function($event) {
@@ -60538,6 +60564,111 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/components/MyAppointmentsButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7ea75589", Component.options)
+  } else {
+    hotAPI.reload("data-v-7ea75589", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 180 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      filter: false
+    };
+  },
+
+
+  methods: {
+    toggleFilter: function toggleFilter() {
+      this.filter = !this.filter;
+      this.$emit("toggle-filter");
+    }
+  },
+
+  computed: {
+    classes: function classes() {
+      if (this.filter) {
+        return "btn btn-success";
+      }
+      return "btn btn-info";
+    }
+  }
+});
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("button", { class: _vm.classes, on: { click: _vm.toggleFilter } }, [
+    _vm._v("Mijn afspraken")
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7ea75589", module.exports)
+  }
+}
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(183)
+/* template */
+var __vue_template__ = __webpack_require__(184)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/components/AppointmentModal.vue"
 
 /* hot reload */
@@ -60560,7 +60691,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 180 */
+/* 183 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60637,46 +60768,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['day', 'period'],
+  props: ["day", "period"],
 
-    data: function data() {
-        return {
-            form: {}
-        };
-    },
+  data: function data() {
+    return {
+      form: {}
+    };
+  },
 
 
-    methods: {
-        newAppointment: function newAppointment() {
-            var _this = this;
+  methods: {
+    newAppointment: function newAppointment() {
+      var _this = this;
 
-            axios.post(this.actionURL, {
-                'title': this.form.title,
-                'body': this.form.body,
-                'class': this.form.class,
-                'subject': this.form.subject,
-                'location': this.form.place,
-                'type': this.form.tasktype,
-                'date': this.day,
-                'period': this.period
-            }).then(function (response) {
-                _this.form = {};
-                _this.$emit('new-appointment');
-            }).catch(function (error) {
-                return flash('Niet alle velden zijn juist ingevuld.');
-            });
-        }
-    },
-
-    computed: {
-        actionURL: function actionURL() {
-            return 'aanvraag/nieuw/' + this.day + '/' + this.period;
-        }
+      axios.post(this.actionURL, {
+        title: this.form.title,
+        body: this.form.body,
+        class: this.form.class,
+        subject: this.form.subject,
+        location: this.form.place,
+        type: this.form.tasktype,
+        date: this.day,
+        period: this.period
+      }).then(function (response) {
+        _this.form = {};
+        _this.$emit("new-appointment");
+      }).catch(function (error) {
+        return flash("Niet alle velden zijn juist ingevuld.");
+      });
     }
+  },
+
+  computed: {
+    actionURL: function actionURL() {
+      return "aanvraag/nieuw/" + this.day + "/" + this.period;
+    }
+  }
 });
 
 /***/ }),
-/* 181 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -60705,7 +60836,11 @@ var render = function() {
             _c(
               "form",
               {
-                attrs: { action: _vm.actionURL, method: "POST" },
+                attrs: {
+                  action: _vm.actionURL,
+                  method: "POST",
+                  autocomplete: "off"
+                },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
@@ -61014,15 +61149,15 @@ if (false) {
 }
 
 /***/ }),
-/* 182 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(183)
+var __vue_script__ = __webpack_require__(186)
 /* template */
-var __vue_template__ = __webpack_require__(184)
+var __vue_template__ = __webpack_require__(187)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61061,7 +61196,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 183 */
+/* 186 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61078,7 +61213,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 184 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -61098,15 +61233,15 @@ if (false) {
 }
 
 /***/ }),
-/* 185 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(186)
+var __vue_script__ = __webpack_require__(189)
 /* template */
-var __vue_template__ = __webpack_require__(187)
+var __vue_template__ = __webpack_require__(190)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61145,7 +61280,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 186 */
+/* 189 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61180,7 +61315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 187 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -61239,7 +61374,7 @@ if (false) {
 }
 
 /***/ }),
-/* 188 */
+/* 191 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

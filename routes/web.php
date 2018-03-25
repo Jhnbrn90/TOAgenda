@@ -13,19 +13,37 @@
 
 Auth::routes();
 
+Route::get('/', 'AppointmentController@index');
 Route::get('/home', 'AppointmentController@index')->name('home');
 
-Route::get('/', 'AppointmentController@index');
-
+Route::post('/aanvraag/nieuw/{date}/{period}', 'AppointmentController@store');
 Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
 
-Route::get('/api/appointments', 'AppointmentController@getAppointments');
-Route::get('/api/appointments/{date}', 'AppointmentController@getAppointments');
+/**
+ ***************
+ * API routes
+ ***************
+ */
 
-Route::get('/api/appointments/filter', 'AppointmentController@getFilteredAppointments');
-Route::get('/api/appointments/filter/{date}', 'AppointmentController@getFilteredAppointments');
+ Route::prefix('api')->group(function () {
+     Route::get('appointments', 'AppointmentController@getAppointments');
+     Route::get('appointments/{date}', 'AppointmentController@getAppointments');
 
-Route::get('/api/weekdays', 'AppointmentController@getWeekdays');
-Route::get('/api/weekdays/{date}', 'AppointmentController@getWeekdays');
+     Route::get('appointments/filter', 'AppointmentController@getFilteredAppointments');
+     Route::get('appointments/filter/{date}', 'AppointmentController@getFilteredAppointments');
 
-Route::post('/aanvraag/nieuw/{date}/{period}', 'AppointmentController@store');
+     Route::get('weekdays', 'AppointmentController@getWeekdays');
+     Route::get('weekdays/{date}', 'AppointmentController@getWeekdays');
+ });
+
+/**
+ ***************
+* Admin routes
+***************
+*/
+
+  Route::prefix('admin')->middleware('admin')->group(function () {
+      Route::get('/', 'AdminController@index');
+
+      Route::get('/appointment/{appointment}', 'AdminController@show');
+  });

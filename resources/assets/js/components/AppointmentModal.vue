@@ -16,7 +16,7 @@
                         <strong> Lesuur: {{ this.period }}<sup>e</sup> uur. </strong>
                     </p>
 
-                    <form :action="actionURL" method="POST" @submit.prevent="newAppointment()">
+                    <form :action="actionURL" method="POST" @submit.prevent="newAppointment()" autocomplete="off">
 
                         <div class="form-group">
                             <label for="title">Titel: </label>
@@ -70,37 +70,39 @@
 
 <script>
 export default {
-    props: ['day', 'period'],
+  props: ["day", "period"],
 
-    data() {
-        return {
-            form: {},
-        }
-    },
+  data() {
+    return {
+      form: {}
+    };
+  },
 
-    methods: {
-      newAppointment() {
-          axios.post(this.actionURL, {
-              'title': this.form.title,
-              'body': this.form.body,
-              'class': this.form.class,
-              'subject': this.form.subject,
-              'location': this.form.place,
-              'type': this.form.tasktype,
-              'date': this.day,
-              'period': this.period,
-          }).then(response => {
-              this.form = {};
-              this.$emit('new-appointment');
-          }).catch(error => flash('Niet alle velden zijn juist ingevuld.'));
-
-      }
-    },
-
-    computed: {
-        actionURL() {
-            return  'aanvraag/nieuw/' + this.day + '/' + this.period;
-        }
+  methods: {
+    newAppointment() {
+      axios
+        .post(this.actionURL, {
+          title: this.form.title,
+          body: this.form.body,
+          class: this.form.class,
+          subject: this.form.subject,
+          location: this.form.place,
+          type: this.form.tasktype,
+          date: this.day,
+          period: this.period
+        })
+        .then(response => {
+          this.form = {};
+          this.$emit("new-appointment");
+        })
+        .catch(error => flash("Niet alle velden zijn juist ingevuld."));
     }
-}
+  },
+
+  computed: {
+    actionURL() {
+      return "aanvraag/nieuw/" + this.day + "/" + this.period;
+    }
+  }
+};
 </script>

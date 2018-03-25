@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
 
@@ -19,28 +19,21 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                       <my-appointments-button class="navbar-btn" @toggle-filter="toggleFilter"/>
+                        <li class="active">
+                            <a href="/admin">Nieuwe afspraken <span class="sr-only">(current)</span></a>
+                        </li>
+
+                         <li><a href="#">Alle afspraken</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Inloggen</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
 
+                        <li>
+                            <a href="/"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Agenda
+                            </a>
+                        </li>
 
-                            <li><div style="display: inline-block;">
-                                <form class="navbar-form navbar-right" v-on:submit.prevent="switchDate(search)" role="search">
-                                    <input v-model="search" type="text" class="form-control" style="display: inline-block; width: 120px; text-align:center;" placeholder="dd-mm-yyyy">
-                                    <button type="submit" class="btn btn-info" style="display:inline-block"> Navigeren </button>
-                                </form>
-                            </div></li>
-
-                            @if(Auth::user()->isAdmin())
-                            <li><a href="/admin"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Beheren</a></li>
-                            @endif
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -61,7 +54,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endguest
+
                     </ul>
                 </div>
             </div>

@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     protected $dates = ['created_at', 'updated_at'];
-
     protected $with = ['creator'];
-
     protected $guarded = [];
 
     protected static function boot()
@@ -44,5 +42,10 @@ class Appointment extends Model
         }
 
         return $query->whereDate('timestamp', '<=', $endDate)->whereDate('timestamp', '>=', $startDate);
+    }
+
+    public function getformattedDateAttribute()
+    {
+        return Carbon::parse($this->date)->formatLocalized('%A %e %B %Y');
     }
 }
