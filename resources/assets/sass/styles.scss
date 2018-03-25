@@ -3,6 +3,46 @@ body {
   margin-bottom: 25px;
 }
 
+.calendar-navigation {
+  @media only screen and (max-width: 600px) {
+    position: fixed;
+    background: rgba(255, 255, 255, 1);
+    width: 100%;
+    padding: 5px;
+    margin: auto;
+    left: 0;
+    top: 60px;
+    z-index: 5000;
+  }
+}
+
+.modal {
+  z-index: 6000 !important;
+}
+
+.sticky-top {
+  @media only screen and (max-width: 600px) {
+    background: rgba(255, 255, 255, 1);
+    padding: 5px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 4000;
+  }
+}
+
+button:hover,
+button:focus,
+a:hover,
+a:focus {
+  text-decoration: none !important;
+  outline: 0 !important;
+}
+
+.btn-link:hover {
+  text-decoration: none;
+}
+
 .nav-buttons {
   margin: 0 auto;
 }
@@ -65,6 +105,7 @@ body {
   // grid-template-columns: auto auto auto auto auto;
   @media only screen and (max-width: 600px) {
     grid-template-columns: auto;
+    margin-top: 20px;
   }
 }
 

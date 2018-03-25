@@ -1,6 +1,6 @@
 <template>
     <div class="appointment">
-        <span class="appointment-title" :class="this.accepted ? 'accepted' : 'waiting' " v-text="this.title" v-on:click="toggleBody()"></span>
+        <button class="btn btn-link appointment-title" :class="this.accepted ? 'accepted' : 'waiting' " v-text="this.title" v-on:click="toggleBody()"></button>
         <div class="appointment-body" :class="this.showBody ? '' : 'hidden'">
             <div class="appt-body"> {{ this.body }} </div>
             <br>

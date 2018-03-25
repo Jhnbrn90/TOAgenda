@@ -60121,10 +60121,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['day', 'date', 'today']
-
+  props: ["day", "date", "today"]
 });
 
 /***/ }),
@@ -60139,7 +60137,7 @@ var render = function() {
     "div",
     { staticClass: "grid-item" },
     [
-      _c("div", { staticClass: "weekday-title" }, [
+      _c("div", { staticClass: "weekday-title sticky-top" }, [
         _c("div", [
           _c("h3", {
             staticClass: "daytitle",
@@ -60472,8 +60470,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "appointment" }, [
-    _c("span", {
-      staticClass: "appointment-title",
+    _c("button", {
+      staticClass: "btn btn-link appointment-title",
       class: this.accepted ? "accepted" : "waiting",
       domProps: { textContent: _vm._s(this.title) },
       on: {
@@ -61295,25 +61293,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['date'],
+  props: ["date"],
 
-    computed: {
-        nextDate: function nextDate() {
-            return window.moment(this.date, 'DD-MM-YYYY').add(7, 'd').format('DD-MM-YYYY');
-        },
-
-        prevDate: function prevDate() {
-            return window.moment(this.date, 'DD-MM-YYYY').subtract(7, 'd').format('DD-MM-YYYY');
-        }
+  computed: {
+    nextDate: function nextDate() {
+      return window.moment(this.date, "DD-MM-YYYY").add(7, "d").format("DD-MM-YYYY");
     },
 
-    methods: {
-        navigateTo: function navigateTo(date) {
-            this.$emit('nav-to-date', date);
-        }
+    prevDate: function prevDate() {
+      return window.moment(this.date, "DD-MM-YYYY").subtract(7, "d").format("DD-MM-YYYY");
     }
+  },
+
+  methods: {
+    navigateTo: function navigateTo(date) {
+      this.$emit("nav-to-date", date);
+    }
+  }
 });
 
 /***/ }),
@@ -61324,46 +61324,55 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-default",
-        on: {
-          click: function($event) {
-            _vm.navigateTo(_vm.prevDate)
-          }
-        }
-      },
-      [_vm._v("  << Vorige ")]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-link",
-        on: {
-          click: function($event) {
-            _vm.navigateTo("now")
-          }
-        }
-      },
-      [_c("h4", [_vm._v(" Huidige Week ")])]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-default",
-        on: {
-          click: function($event) {
-            _vm.navigateTo(_vm.nextDate)
-          }
-        }
-      },
-      [_vm._v(" Volgende >> ")]
-    )
-  ])
+  return _c(
+    "div",
+    {
+      staticClass: "container",
+      staticStyle: { margin: "auto", "text-align": "center" }
+    },
+    [
+      _c("div", { staticClass: "calendar-navigation" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            on: {
+              click: function($event) {
+                _vm.navigateTo(_vm.prevDate)
+              }
+            }
+          },
+          [_vm._v("  << Vorige ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-link",
+            on: {
+              click: function($event) {
+                _vm.navigateTo("now")
+              }
+            }
+          },
+          [_c("h4", [_vm._v(" Huidige Week ")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            on: {
+              click: function($event) {
+                _vm.navigateTo(_vm.nextDate)
+              }
+            }
+          },
+          [_vm._v(" Volgende >> ")]
+        )
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,6 +1,6 @@
 <template>
     <div class="grid-item">
-        <div class="weekday-title">
+        <div class="weekday-title sticky-top">
             <div>
                 <h3 class="daytitle" v-text="this.day"></h3>
                 <span class="daydate" v-text="this.date"></span>
@@ -14,10 +14,8 @@
 </template>
 
 <script>
-
 export default {
-    props: ['day', 'date', 'today'],
-
-}
+  props: ["day", "date", "today"]
+};
 </script>
 

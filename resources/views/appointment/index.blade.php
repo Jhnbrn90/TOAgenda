@@ -4,9 +4,7 @@
 
     <div class="container">
 
-    <center>
         <nav-buttons :date="Object.keys(days)[0]" @nav-to-date="switchDate"></nav-buttons>
-    </center>
 
         <div class="grid-container">
             <appt v-for="(weekday, day) in appointments" v-bind:key="day">
