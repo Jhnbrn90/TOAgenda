@@ -21,6 +21,8 @@
         ]) !!};
     </script>
 
+    @yield('scripts')
+
 </head>
 <body>
     <div id="app">

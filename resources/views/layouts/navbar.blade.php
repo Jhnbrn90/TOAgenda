@@ -19,7 +19,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                       <my-appointments-button class="navbar-btn" @toggle-filter="toggleFilter"/>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -29,7 +29,7 @@
                             <li><a href="{{ route('login') }}">Inloggen</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
-                            
+
                             <div style="display: inline-block;">
                                 <form class="navbar-form navbar-right" v-on:submit.prevent="switchDate(search)" role="search">
                                     <input v-model="search" type="text" class="form-control" style="display: inline-block; width: 120px; text-align:center;" placeholder="dd-mm-yyyy">
@@ -61,3 +61,4 @@
                 </div>
             </div>
         </nav>
+

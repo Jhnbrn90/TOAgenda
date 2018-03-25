@@ -22,6 +22,9 @@ Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
 Route::get('/api/appointments', 'AppointmentController@getAppointments');
 Route::get('/api/appointments/{date}', 'AppointmentController@getAppointments');
 
+Route::get('/api/appointments/filter', 'AppointmentController@getFilteredAppointments');
+Route::get('/api/appointments/filter/{date}', 'AppointmentController@getFilteredAppointments');
+
 Route::get('/api/weekdays', 'AppointmentController@getWeekdays');
 Route::get('/api/weekdays/{date}', 'AppointmentController@getWeekdays');
 

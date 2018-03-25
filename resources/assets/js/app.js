@@ -2,12 +2,14 @@ window.Vue = require("vue");
 require("./bootstrap");
 window.moment = require("moment");
 
-
-
 Vue.component("flash", require("./components/Flash.vue"));
 Vue.component("weekday", require("./components/Weekday.vue"));
 Vue.component("lesson-period", require("./components/LessonPeriod.vue"));
 Vue.component("appointment", require("./components/Appointment.vue"));
+Vue.component(
+  "my-appointments-button",
+  require("./components/MyAppointmentsButton.vue")
+);
 Vue.component(
   "appointment-modal",
   require("./components/AppointmentModal.vue")
@@ -22,17 +24,24 @@ const app = new Vue({
     return {
       startDate: "now",
       moment: moment,
-      appointments: "",
-      days: "",
+      appointments: [],
+      days: [],
       modalday: "",
       modalperiod: "",
-      search: ""
+      search: "",
+      filter: false
     };
   },
 
   mounted() {
+    let appointmentApi = "/api/appointments/" + this.startDate;
+
+    if (this.filter) {
+      appointmentApi = "/api/appointments/filter/" + this.startDate;
+    }
+
     axios
-      .get("/api/appointments/" + this.startDate)
+      .get(appointmentApi)
       .then(response => (this.appointments = response.data));
     axios
       .get("/api/weekdays/" + this.startDate)
@@ -41,8 +50,29 @@ const app = new Vue({
 
   watch: {
     startDate: function(date) {
+      let appointmentApi = "/api/appointments/" + this.startDate;
+
+      if (this.filter) {
+        appointmentApi = "/api/appointments/filter/" + this.startDate;
+      }
+
       axios
-        .get("/api/appointments/" + this.startDate)
+        .get(appointmentApi)
+        .then(response => (this.appointments = response.data));
+      axios
+        .get("/api/weekdays/" + this.startDate)
+        .then(response => (this.days = response.data));
+    },
+
+    filter: function(date) {
+      let appointmentApi = "/api/appointments/" + this.startDate;
+
+      if (this.filter) {
+        appointmentApi = "/api/appointments/filter/" + this.startDate;
+      }
+
+      axios
+        .get(appointmentApi)
         .then(response => (this.appointments = response.data));
       axios
         .get("/api/weekdays/" + this.startDate)
@@ -71,6 +101,10 @@ const app = new Vue({
 
     switchDate(date) {
       this.startDate = date;
+    },
+
+    toggleFilter() {
+      this.filter = !this.filter;
     }
   }
 });

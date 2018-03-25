@@ -21,9 +21,9 @@ class AppointmentController extends Controller
         return view('appointment.index', compact('periods'));
     }
 
-    public function getAppointments(Request $request)
+    public function getAppointments($date)
     {
-        $date = $request->date ?: 'now';
+        $date = $date ?: 'now';
 
         $week = new WeekdaysCollection($date);
         $emptyArray = $week->emptyAppointmentsArray();
@@ -40,9 +40,34 @@ class AppointmentController extends Controller
         return array_slice($appointments, 0, 5, true);
     }
 
-    public function getWeekdays(Request $request)
+    public function getFilteredAppointments($date)
     {
-        $date = $request->date ?: 'now';
+        $date = $date ? : 'now';
+
+        $week = new WeekdaysCollection($date);
+        $emptyArray = $week->emptyAppointmentsArray();
+
+        $appointments = Appointment::Week($date)
+            ->where('user_id', auth()->id())
+            ->orderBy('date', 'ASC')
+            ->orderBy('id', 'ASC')
+            ->get()
+            ->groupBy('date')
+            ->map(function ($appt) {
+                return $appt->groupBy('period');
+            });
+
+
+            $appointments = array_replace_recursive($emptyArray, $appointments->toArray());
+
+            return $appointments;
+
+        // return array_slice($appointments, 0, 5, true);
+    }
+
+    public function getWeekdays($date)
+    {
+        $date = $date ?: 'now';
 
         $week = new WeekdaysCollection($date);
 
