@@ -16,7 +16,7 @@
                     v-if="days[day]"
                     :date="day"
                     :day="days[day].name"
-                    :class="days[day].past ? 'past' : days[day].today ? 'today' : '' "
+                    :class="days[day].past ? switched ? 'past' : 'hide-past-mobile past' : days[day].today ? 'today' : '' "
                 >
 
                     <lesson-period

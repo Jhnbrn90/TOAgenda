@@ -1,36 +1,40 @@
 body {
-    font-size: 1.4rem;
-    margin-bottom: 25px;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
 }
 
 .nav-buttons {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 .slide-fade-enter-active {
-  transition: all .5s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter,
+.slide-fade-leave-to {
   opacity: 0;
   transition: all 1s ease-in-out;
 }
 
 .past {
-    opacity: 0.5;
-    @media only screen and (max-width: 600px) {
-      display: none;
-    }
+  opacity: 0.5;
+}
+
+.hide-past-mobile {
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
 }
 
 .today {
-   h3.daytitle {
-     text-decoration: underline;
-   }
+  h3.daytitle {
+    text-decoration: underline;
+  }
   span.daydate {
     font-weight: 900;
     color: darkred;
@@ -43,26 +47,25 @@ body {
   // border-top: 0.5px solid lightgrey;
   // border-radius: 10px;
   // box-shadow: 2px 1px lightgrey;
-
 }
 
 .weekday-title {
-    color: rgb(63, 62, 62);
-    padding-bottom: 10px;
+  color: rgb(63, 62, 62);
+  padding-bottom: 10px;
 }
 
 .appointment-time {
-    color: rgb(63, 62, 62);
-    margin-top: -5px;
+  color: rgb(63, 62, 62);
+  margin-top: -5px;
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
-    // grid-template-columns: auto auto auto auto auto;
-    @media only screen and (max-width: 600px) {
-        grid-template-columns: auto
-    }
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  // grid-template-columns: auto auto auto auto auto;
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: auto;
+  }
 }
 
 .appointment {
@@ -93,7 +96,7 @@ body {
 }
 
 .grid-item {
-    text-align: center;
-    padding: 2px;
-    margin: 0;
+  text-align: center;
+  padding: 2px;
+  margin: 0;
 }

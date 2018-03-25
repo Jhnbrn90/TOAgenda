@@ -8360,8 +8360,8 @@ body {
 }
 
 .slide-fade-enter-active {
-  -webkit-transition: all .5s ease-out;
-  transition: all .5s ease-out;
+  -webkit-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 .slide-fade-leave-active {
@@ -8381,7 +8381,7 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-  .past {
+  .hide-past-mobile {
     display: none;
   }
 }

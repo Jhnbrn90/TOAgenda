@@ -17645,6 +17645,7 @@ var app = new Vue({
       modalday: "",
       modalperiod: "",
       search: "",
+      switched: false,
       filter: false
     };
   },
@@ -17711,6 +17712,7 @@ var app = new Vue({
       });
     },
     switchDate: function switchDate(date) {
+      this.switched = true;
       this.startDate = date;
     },
     toggleFilter: function toggleFilter() {

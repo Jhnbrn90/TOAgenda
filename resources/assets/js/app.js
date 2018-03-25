@@ -29,6 +29,7 @@ const app = new Vue({
       modalday: "",
       modalperiod: "",
       search: "",
+      switched: false,
       filter: false
     };
   },
@@ -93,6 +94,7 @@ const app = new Vue({
     },
 
     switchDate(date) {
+      this.switched = true;
       this.startDate = date;
     },
 
