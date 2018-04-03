@@ -44,6 +44,11 @@ class Appointment extends Model
         return $query->whereDate('timestamp', '<=', $endDate)->whereDate('timestamp', '>=', $startDate);
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('accepted', '<>', 2);
+    }
+
     public function getformattedDateAttribute()
     {
         return Carbon::parse($this->date)->formatLocalized('%A %e %B %Y');
@@ -51,11 +56,11 @@ class Appointment extends Model
 
     public function accept($message)
     {
-        $this->update(['accepted' => true, 'message' => $message]);
+        $this->update(['accepted' => 1, 'message' => $message]);
     }
 
     public function deny($message)
     {
-        $this->update(['accepted' => false, 'message' => $message]);
+        $this->update(['accepted' => 2, 'message' => $message]);
     }
 }

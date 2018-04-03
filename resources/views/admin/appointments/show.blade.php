@@ -2,7 +2,21 @@
 @section('content')
 
 <div class="container">
-    <h2 style="color: darkred">{{ ucfirst($appointment->type) }}</h2>
+    <div>
+        <ol class="breadcrumb">
+            <li><a href="/admin">Homepage</a></li>
+            @if ($appointment->accepted == '0')
+            <li><a href="/admin/appointments/open">Nieuwe afspraken</a></li>
+            @else
+            <li><a href="/admin/appointments/all">Alle afspraken</a></li>
+            @endif
+            <li class="active">{{ $appointment->title }}</li>
+        </ol>
+    </div>
+
+    <center>
+        <h2 style="margin:auto; color: darkred">{{ ucfirst($appointment->type) }}</h2>
+    </center>
 
     <br>
 

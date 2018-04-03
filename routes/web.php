@@ -43,7 +43,9 @@ Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
 */
 
   Route::prefix('admin')->middleware('admin')->group(function () {
-      Route::get('/', 'AdminController@index');
+      Route::get('/', 'AdminController@index')->name('admin-index');
+      Route::get('/appointments/open', 'AdminController@indexOpenAppointments')->name('new-appointments');
+      Route::get('/appointments/all', 'AdminController@indexAllAppointments')->name('all-appointments');
 
       Route::get('/appointment/{appointment}', 'AdminController@show');
       Route::patch('/appointment/{appointment}', 'AdminController@update');

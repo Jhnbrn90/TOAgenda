@@ -28,7 +28,7 @@ class AppointmentController extends Controller
         $week = new WeekdaysCollection($date);
         $emptyArray = $week->emptyAppointmentsArray();
 
-        $appointments = Appointment::Week($date)
+        $appointments = Appointment::active()->Week($date)
                 ->orderBy('date', 'ASC')
                 ->orderBy('id', 'ASC')
                 ->get()
@@ -47,7 +47,7 @@ class AppointmentController extends Controller
         $week = new WeekdaysCollection($date);
         $emptyArray = $week->emptyAppointmentsArray();
 
-        $appointments = Appointment::Week($date)
+        $appointments = Appointment::active()->Week($date)
             ->where('user_id', auth()->id())
             ->orderBy('date', 'ASC')
             ->orderBy('id', 'ASC')
