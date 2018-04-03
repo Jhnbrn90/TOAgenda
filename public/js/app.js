@@ -60235,6 +60235,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["time", "date", "past"],
@@ -60287,7 +60290,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v(" Inplannen")]
+          [_vm._v("\n                Inplannen\n              ")]
         )
       ],
       2

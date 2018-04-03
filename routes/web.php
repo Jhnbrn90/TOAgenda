@@ -46,4 +46,5 @@ Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
       Route::get('/', 'AdminController@index');
 
       Route::get('/appointment/{appointment}', 'AdminController@show');
+      Route::patch('/appointment/{appointment}', 'AdminController@update');
   });

@@ -7,9 +7,12 @@
 
                 <slot>
                 </slot>
+
                 <button class="btn btn-link"
                         @click.prevent="setAppointment"
-                        data-toggle="modal" data-target="#myModal" v-show="! this.past"> Inplannen</button>
+                        data-toggle="modal" data-target="#myModal" v-show="! this.past">
+                  Inplannen
+                </button>
             </div>
         </div>
 </template>

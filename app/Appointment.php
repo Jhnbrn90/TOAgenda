@@ -48,4 +48,14 @@ class Appointment extends Model
     {
         return Carbon::parse($this->date)->formatLocalized('%A %e %B %Y');
     }
+
+    public function accept($message)
+    {
+        $this->update(['accepted' => true, 'message' => $message]);
+    }
+
+    public function deny($message)
+    {
+        $this->update(['accepted' => false, 'message' => $message]);
+    }
 }

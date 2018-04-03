@@ -8355,6 +8355,35 @@ body {
   margin-bottom: 25px;
 }
 
+.panel-body p {
+  font-size: 1.6rem;
+}
+
+.admin-panel {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .admin-panel {
+    width: 100%;
+  }
+}
+
+.admin-message {
+  width: 80%;
+  margin: auto;
+  -webkit-box-shadow: 9px -1px 24px 3px rgba(110, 110, 110, 0.16);
+  box-shadow: 9px -1px 24px 3px rgba(110, 110, 110, 0.16);
+}
+
+@media only screen and (max-width: 600px) {
+  .admin-message {
+    width: 100%;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .calendar-navigation {
     position: fixed;
