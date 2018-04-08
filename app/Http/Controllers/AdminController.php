@@ -14,14 +14,14 @@ class AdminController extends Controller
 
     public function indexAllAppointments()
     {
-        session(['backUrl' => url()->current()]);
-        $appointments = Appointment::orderBy('id', 'DESC')->paginate(10);
+        session(['backTitle' => 'Alle afspraken', 'backUrl' => url()->current()]);
+        $appointments = Appointment::orderBy('id', 'DESC')->paginate(6);
         return view('admin.appointments.all', compact('appointments'));
     }
 
     public function indexOpenAppointments()
     {
-        session(['backUrl' => url()->current()]);
+        session(['backTitle' => 'Nieuwe afspraken', 'backUrl' => url()->current()]);
 
         $appointments = Appointment::where('accepted', 0)->orderBy('id', 'DESC')->paginate(10);
 

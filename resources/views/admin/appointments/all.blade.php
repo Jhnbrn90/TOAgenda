@@ -7,14 +7,12 @@
     <div>
         <ol class="breadcrumb">
             <li><a href="/admin">Homepage</a></li>
-            <li class="active">Alle afspraken</li>
+            <li class="active">Alle afspraken ({{ $appointments->total() }})</li>
         </ol>
     </div>
 
-    <h2>Alle afspraken ({{ $appointments->total() }})</h2>
-
     <div class="table-responsive">
-        <table class="table table-striped tab   le-hover">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>Datum</th>
@@ -49,6 +47,6 @@
         </table>
     </div>
 
-    {{ $appointments->links() }}
+    <center> {{ $appointments->links() }} </center>
 </div>
 @endsection

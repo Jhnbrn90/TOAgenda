@@ -23,7 +23,13 @@
                     <a href="/admin/appointments/open">Nieuwe afspraken <span class="sr-only">(current)</span></a>
                 </li>
 
-                <li class="{{ Route::currentRouteName() == 'all-appointments' ? 'active' : '' }}"><a href=" /admin/appointments/all ">Alle afspraken</a></li>
+                <li class="{{ Route::currentRouteName() == 'all-appointments' ? 'active' : '' }}">
+                    <a href=" /admin/appointments/all">Alle afspraken</a>
+                </li>
+
+                <li class="{{ Route::currentRouteName() == 'users.index' ? 'active' : '' }}">
+                    <a href=" /admin/users">Gebruikers</a>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->

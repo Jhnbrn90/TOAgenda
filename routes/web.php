@@ -49,4 +49,13 @@ Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
 
       Route::get('/appointment/{appointment}', 'AdminController@show');
       Route::patch('/appointment/{appointment}', 'AdminController@update');
+
+      Route::get('/users', 'UserController@index')->name('users.index');
+      Route::post('/users', 'UserController@store')->name('users.store');
+
+      Route::get('/users/create', 'UserController@create')->name('users.create');
+
+      Route::get('/users/{user}', 'UserController@show')->name('users.show');
+
+      Route::patch('/users/{user}', 'UserController@update')->name('users.update');
   });
