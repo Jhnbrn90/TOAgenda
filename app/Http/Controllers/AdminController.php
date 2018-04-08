@@ -14,12 +14,15 @@ class AdminController extends Controller
 
     public function indexAllAppointments()
     {
+        session(['backUrl' => url()->current()]);
         $appointments = Appointment::orderBy('id', 'DESC')->paginate(10);
         return view('admin.appointments.all', compact('appointments'));
     }
 
     public function indexOpenAppointments()
     {
+        session(['backUrl' => url()->current()]);
+
         $appointments = Appointment::where('accepted', 0)->orderBy('id', 'DESC')->paginate(10);
 
         return view('admin.appointments.open', compact('appointments'));
@@ -39,6 +42,9 @@ class AdminController extends Controller
                 $appointment->accept($message);
                 // event dispatchen dat de afspraak is geaccepteerd
                 session()->flash('message', ['success', 'Afspraak geaccepteerd.']);
+                if (session('backUrl')) {
+                    return redirect(session('backUrl'));
+                }
                 return redirect('/admin/appointments/open');
             break;
 
@@ -46,6 +52,9 @@ class AdminController extends Controller
                 $appointment->deny($message);
                 session()->flash('message', ['success', 'Afspraak geweigerd.']);
                 // event dispatchen dat de afspraak is geweigerd
+                if (session('backUrl')) {
+                    return redirect(session('backUrl'));
+                }
                 return redirect('/admin/appointments/open');
             break;
         }
