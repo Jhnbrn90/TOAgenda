@@ -34,6 +34,9 @@ Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
 
      Route::get('weekdays', 'AppointmentController@getWeekdays');
      Route::get('weekdays/{date}', 'AppointmentController@getWeekdays');
+
+     Route::post('upload', 'FileController@store');
+     Route::delete('upload', 'FileController@destroy');
  });
 
 /**

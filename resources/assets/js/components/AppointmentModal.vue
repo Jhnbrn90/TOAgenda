@@ -37,7 +37,7 @@
 
                         <div class="form-group">
                             <label for="location">Bijlage(n): </label>
-                            <input type="file" class="form-control" id="location" name="location" placeholder="B0-1" @change="addFile()" ref="file">
+                            <file-uploader />
                         </div>
 
 
@@ -86,9 +86,7 @@ export default {
 
   data() {
     return {
-      form: {
-        attachment: null
-      }
+      form: {}
     };
   },
 
@@ -104,7 +102,6 @@ export default {
             subject: this.form.subject,
             location: this.form.place,
             type: this.form.tasktype,
-            attachment: this.form.attachment,
             date: this.day,
             period: this.period
           },
@@ -117,9 +114,6 @@ export default {
         .catch(error => flash("Niet alle velden zijn juist ingevuld."));
     },
 
-    addFile() {
-      this.form.attachment = this.$refs.file.files[0];
-    }
   },
 
   computed: {

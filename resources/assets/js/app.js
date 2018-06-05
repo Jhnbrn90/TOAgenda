@@ -16,6 +16,7 @@ Vue.component(
 );
 Vue.component("appt", require("./components/Appt.vue"));
 Vue.component("nav-buttons", require("./components/NavButtons.vue"));
+Vue.component("file-uploader", require("./components/FileUploader.vue"));
 
 const app = new Vue({
   el: "#app",

@@ -75,8 +75,6 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->file('attachment'));
-
         $request->validate([
             'title'    => 'required',
             'body'     => 'required',

@@ -18,5 +18,11 @@
         "lodash": "^4.17.4",
         "moment": "^2.20.1",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "filepond": "^1.7.1",
+        "filepond-plugin-file-validate-type": "^1.1.0",
+        "filepond-plugin-image-preview": "^1.0.9",
+        "vue-filepond": "^2.1.0"
     }
 }
