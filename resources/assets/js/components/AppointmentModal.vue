@@ -16,7 +16,13 @@
                         <strong> Lesuur: {{ this.period }}<sup>e</sup> uur. </strong>
                     </p>
 
-                    <form :action="actionURL" method="POST" @submit.prevent="newAppointment()" autocomplete="off">
+                    <form 
+                        :action="actionURL" 
+                        method="POST" 
+                        @submit.prevent="newAppointment()" 
+                        enctype="multipart/form-data" 
+                        autocomplete="off"
+                    >
 
                         <div class="form-group">
                             <label for="title">Titel: </label>
@@ -28,6 +34,12 @@
                                       placeholder="Beschijving van het practicum: proefopstelling, lesmateriaal, etc. Bij assistentie: geef ook aan om welk lesdeel het gaat (hele les, eerste deel, tweede deel)"
                                       required></textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label for="location">Bijlage(n): </label>
+                            <input type="file" class="form-control" id="location" name="location" placeholder="B0-1" @change="addFile()" ref="file">
+                        </div>
+
 
                         <div class="form-group">
                             <label for="klas">Klas: </label>
@@ -43,11 +55,11 @@
                             <label for="location">Locatie: </label>
                             <input type="text" class="form-control" id="location" name="location" placeholder="B0-1" v-model="form.place" required>
                         </div>
-
+                        
                         <div class="form-group">
                             <label for="type"><strong>Type: </strong></label>
                             <select class="form-control" id="type" name="type" v-model="form.tasktype" required>
-                                <option value="" selected>Kies een optie</option>
+                                <option selected>Kies een optie</option>
                                 <option value="voorbereiding">Voorbereiden</option>
                                 <option value="assistentie">Assisteren</option>
                                 <option value="anders">Anders</option>
@@ -74,28 +86,39 @@ export default {
 
   data() {
     return {
-      form: {}
+      form: {
+        attachment: null
+      }
     };
   },
 
   methods: {
     newAppointment() {
       axios
-        .post(this.actionURL, {
-          title: this.form.title,
-          body: this.form.body,
-          class: this.form.class,
-          subject: this.form.subject,
-          location: this.form.place,
-          type: this.form.tasktype,
-          date: this.day,
-          period: this.period
-        })
+        .post(
+          this.actionURL,
+          {
+            title: this.form.title,
+            body: this.form.body,
+            class: this.form.class,
+            subject: this.form.subject,
+            location: this.form.place,
+            type: this.form.tasktype,
+            attachment: this.form.attachment,
+            date: this.day,
+            period: this.period
+          },
+          { headers: { "Content-Type": "multipart/form-data" } }
+        )
         .then(response => {
           this.form = {};
           this.$emit("new-appointment");
         })
         .catch(error => flash("Niet alle velden zijn juist ingevuld."));
+    },
+
+    addFile() {
+      this.form.attachment = this.$refs.file.files[0];
     }
   },
 

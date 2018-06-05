@@ -60769,13 +60769,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["day", "period"],
 
   data: function data() {
     return {
-      form: {}
+      form: {
+        attachment: null
+      }
     };
   },
 
@@ -60791,14 +60805,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         subject: this.form.subject,
         location: this.form.place,
         type: this.form.tasktype,
+        attachment: this.form.attachment,
         date: this.day,
         period: this.period
-      }).then(function (response) {
+      }, { headers: { "Content-Type": "multipart/form-data" } }).then(function (response) {
         _this.form = {};
         _this.$emit("new-appointment");
       }).catch(function (error) {
         return flash("Niet alle velden zijn juist ingevuld.");
       });
+    },
+    addFile: function addFile() {
+      this.form.attachment = this.$refs.file.files[0];
     }
   },
 
@@ -60842,6 +60860,7 @@ var render = function() {
                 attrs: {
                   action: _vm.actionURL,
                   method: "POST",
+                  enctype: "multipart/form-data",
                   autocomplete: "off"
                 },
                 on: {
@@ -60914,6 +60933,28 @@ var render = function() {
                           return
                         }
                         _vm.$set(_vm.form, "body", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "location" } }, [
+                    _vm._v("Bijlage(n): ")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    ref: "file",
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "file",
+                      id: "location",
+                      name: "location",
+                      placeholder: "B0-1"
+                    },
+                    on: {
+                      change: function($event) {
+                        _vm.addFile()
                       }
                     }
                   })
@@ -61054,7 +61095,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("option", { attrs: { value: "", selected: "" } }, [
+                      _c("option", { attrs: { selected: "" } }, [
                         _vm._v("Kies een optie")
                       ]),
                       _vm._v(" "),

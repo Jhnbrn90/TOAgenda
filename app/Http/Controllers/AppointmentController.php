@@ -42,7 +42,7 @@ class AppointmentController extends Controller
 
     public function getFilteredAppointments($date)
     {
-        $date = $date ? : 'now';
+        $date = $date ?: 'now';
 
         $week = new WeekdaysCollection($date);
         $emptyArray = $week->emptyAppointmentsArray();
@@ -57,10 +57,9 @@ class AppointmentController extends Controller
                 return $appt->groupBy('period');
             });
 
+        $appointments = array_replace_recursive($emptyArray, $appointments->toArray());
 
-            $appointments = array_replace_recursive($emptyArray, $appointments->toArray());
-
-            return $appointments;
+        return $appointments;
 
         // return array_slice($appointments, 0, 5, true);
     }
@@ -76,6 +75,8 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->file('attachment'));
+
         $request->validate([
             'title'    => 'required',
             'body'     => 'required',
