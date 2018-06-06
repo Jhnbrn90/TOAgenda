@@ -61850,8 +61850,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 // Import FilePond
 
@@ -61871,8 +61869,8 @@ var FilePond = __WEBPACK_IMPORTED_MODULE_0_vue_filepond___default()(__WEBPACK_IM
   name: "app",
   data: function data() {
     return {
-      myFiles: null,
-      uploadedFiles: [],
+      uploadedFiles: {},
+
       serverOptions: {
         process: {
           url: "/api/upload",
@@ -61881,49 +61879,50 @@ var FilePond = __WEBPACK_IMPORTED_MODULE_0_vue_filepond___default()(__WEBPACK_IM
           headers: {
             "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]').content
           },
-          onload: this.onLoadFile
+          onload: this.fileHasBeenUploaded
         },
 
         revert: {
-          url: "/api/upload",
-          method: "DELETE",
+          url: "/api/upload/delete",
+          method: "POST",
           withCredentials: false,
           headers: {
             "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]').content
           },
-          onload: this.removeFile
+          onload: null
         }
       }
     };
   },
+
   methods: {
-    handleFilePondInit: function handleFilePondInit() {
-      //   console.log("FilePond has initialized");
-
-      //   // example of instance method call on pond reference
-      //   this.getFiles = this.$refs.pond.getFiles();
-    },
-
     handleUndo: function handleUndo(file) {
-      console.log(file);
-      var index = this.uploadedFiles.indexOf(file.filename);
-      this.uploadedFiles.splice(index, 1);
-      console.log(this.uploadedFiles);
-    },
-    onLoadFile: function onLoadFile(response) {
-      // Todo: Write the following logic (work needs to be done in FileController)
-      // Get a respond from the server with the original filename and the randomly generated one:
-      // favicon.ico;ajsndkajsn29 
-      // Then separate them into an assoc. array
-      // ['favicon.ico' => 'ajsndkajsn29']
+      var _this = this;
 
-      var filename = response.replace(/[\"\"]/g, "");
-      this.uploadedFiles.push(filename);
-      this.$nextTick();
+      // get the key of the file in the uploadedFiles object
+      var key = this.getKeyByValue(this.uploadedFiles, file.filename);
+
+      // remove the item with this key from the uploadedFiles object
+      axios.delete("/api/uploads/" + key).then(function (response) {
+        delete _this.uploadedFiles[key];
+      });
     },
-    removeFile: function removeFile(response) {
-      // TODO: Write out this function
-      console.log(response);
+    fileHasBeenUploaded: function fileHasBeenUploaded(response) {
+      var strippedFilename = response.replace(/[\"\"]/g, "");
+
+      var hashedFilename = strippedFilename.split(';')[0];
+      var originalFilename = strippedFilename.split(';')[1];
+
+      this.uploadedFiles[hashedFilename] = originalFilename;
+
+      this.$nextTick();
+
+      return hashedFilename;
+    },
+    getKeyByValue: function getKeyByValue(object, value) {
+      return Object.keys(object).find(function (key) {
+        return object[key] === value;
+      });
     }
   },
 
@@ -71581,10 +71580,9 @@ var render = function() {
           "class-name": "my-pond",
           "label-idle": "Klik (of sleep) om bestanden bij te voegen...",
           "allow-multiple": "true",
-          server: _vm.serverOptions,
-          files: _vm.myFiles
+          server: _vm.serverOptions
         },
-        on: { init: _vm.handleFilePondInit, removefile: _vm.handleUndo }
+        on: { removefile: _vm.handleUndo }
       })
     ],
     1

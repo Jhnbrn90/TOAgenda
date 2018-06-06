@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -10,14 +11,22 @@ class FileController extends Controller
     {
         // TODO: extract a method
         $path = $request->file('attachment')->store('uploads');
-        $tmp_filename = preg_split('#/#', $path)[1];
-        $tmp_filename = explode('.', $tmp_filename)[0];
 
-        return response()->json($tmp_filename);
+        $tmp_filename = preg_split('#/#', $path)[1];
+        $original_filename = $request->file('attachment')->getClientOriginalName();
+
+        $json_response = $tmp_filename . ';' . $original_filename;
+
+        return response()->json($json_response);
     }
 
-    public function destroy(Request $request)
+    public function fakeDestroy()
     {
-        dd($request);
+        return '';
+    }
+
+    public function destroy($file)
+    {
+        Storage::delete('uploads/' . $file);
     }
 }
