@@ -9,12 +9,13 @@ class FileController extends Controller
 {
     public function store(Request $request)
     {
-        $path = $request->file('attachment')->store('uploads');
+        $storedAs = basename(
+            $request->file('attachment')->store('uploads')
+        );
 
-        $tmp_filename = preg_split('#/#', $path)[1];
-        $original_filename = $request->file('attachment')->getClientOriginalName();
+        $originalFilename = $request->file('attachment')->getClientOriginalName();
 
-        $json_response = $tmp_filename . ';' . $original_filename;
+        $json_response = $storedAs . ';' . $originalFilename;
 
         return response()->json($json_response);
     }
