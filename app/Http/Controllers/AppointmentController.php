@@ -75,6 +75,13 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
+        $attachments = null;
+
+        // check if anything was uploaded
+        if (!empty($request->attachments)) {
+            $attachments = json_encode($request->attachments);
+        }
+
         $request->validate([
             'title'    => 'required',
             'body'     => 'required',
@@ -87,15 +94,16 @@ class AppointmentController extends Controller
         ]);
 
         $appointment = Appointment::create([
-            'user_id'  => auth()->id(),
-            'title'    => $request->title,
-            'body'     => $request->body,
-            'date'     => $request->date,
-            'period'   => $request->period,
-            'class'    => $request->class,
-            'subject'  => $request->subject,
-            'type'     => $request->type,
-            'location' => $request->location,
+            'user_id'     => auth()->id(),
+            'title'       => $request->title,
+            'body'        => $request->body,
+            'date'        => $request->date,
+            'period'      => $request->period,
+            'class'       => $request->class,
+            'subject'     => $request->subject,
+            'type'        => $request->type,
+            'location'    => $request->location,
+            'attachments' => $attachments,
         ]);
 
         return $appointment;

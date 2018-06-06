@@ -33,11 +33,12 @@ const FilePond = vueFilePond(
 );
 
 export default {
-  name: "app",
+  components: {
+      FilePond
+  },
+
   data: function() {
     return {
-      uploadedFiles: {},
-
       serverOptions: {
         process: {
           url: "/api/upload",
@@ -68,9 +69,7 @@ export default {
 
   methods: {
     handleUndo(file) {
-      
       this.$emit('removed-file', file.filename);
-
     },
 
     fileHasBeenUploaded(response) {
@@ -84,8 +83,5 @@ export default {
 
   },
 
-  components: {
-    FilePond
-  }
 };
 </script>

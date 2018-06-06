@@ -10,6 +10,13 @@
                 {{ this.class }} | {{ this.subject }} | {{ this.location }} <br>
                 {{ this.creator.name }}
             </div>
+            <br>
+            <div v-if="attachments" class="appointment-info">
+              <u>Bijlage(n):</u> <br />
+              <a :href="linkTo(attachment)" v-for="(attachment,index) in attachments" :key="index">
+                # {{ index + 1 }} (download)
+              </a>
+            </div>
             <div class="appointment-delete" v-if="canDelete">
                 <button class="btn btn-link btn-danger" @click="deleteAppointment()">Verwijderen</button>
             </div>
@@ -31,14 +38,15 @@ export default {
       class: this.appointment.class,
       location: this.appointment.location,
       type: this.appointment.type,
-      subject: this.appointment.subject
+      subject: this.appointment.subject,
+      attachments: JSON.parse(this.appointment.attachments),
     };
   },
 
   computed: {
     canDelete() {
       return window.App.user.id == this.appointment.user_id && !this.past;
-    }
+    },
   },
 
   methods: {
@@ -54,6 +62,10 @@ export default {
           flash("De afspraak is verwijderd.");
         });
       }
+    },
+
+    linkTo(attachment) {
+      return `https://s3.eu-west-3.amazonaws.com/toagenda/uploads/${attachment}`;
     }
   }
 };

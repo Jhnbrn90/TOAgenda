@@ -89,8 +89,9 @@ export default {
 
   data() {
     return {
-      form: {},
-      uploadedFiles: {},
+      form: {
+        attachments: {}
+      }
     };
   },
 
@@ -106,10 +107,10 @@ export default {
             subject: this.form.subject,
             location: this.form.place,
             type: this.form.tasktype,
+            attachments: Object.keys(this.form.attachments),
             date: this.day,
             period: this.period
-          },
-          { headers: { "Content-Type": "multipart/form-data" } }
+          }
         )
         .then(response => {
           this.form = {};
@@ -119,22 +120,22 @@ export default {
     },
 
     addFile(hashedFilename, originalFilename) {
-        this.uploadedFiles[hashedFilename] = originalFilename;
+      this.form.attachments[hashedFilename] = originalFilename;
     },
 
     removeFile(filename) {
-        // get the key of the file in the uploadedFiles object
-        let key = this.getKeyByValue(this.uploadedFiles, filename);
+      // get the key of the file in the uploadedFiles object
+      let key = this.getKeyByValue(this.form.attachments, filename);
 
-          // remove the item with this key from the uploadedFiles object
-          axios.delete(`/api/uploads/${key}`)
-          .then(response => { delete this.uploadedFiles[key]; });
+      // remove the item with this key from the uploadedFiles object
+      axios.delete(`/api/uploads/${key}`).then(response => {
+        delete this.form.attachments[key];
+      });
     },
 
     getKeyByValue(object, value) {
       return Object.keys(object).find(key => object[key] === value);
-    },
-
+    }
   },
 
   computed: {

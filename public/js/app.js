@@ -60783,6 +60783,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["appointment", "past"],
@@ -60797,7 +60804,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       class: this.appointment.class,
       location: this.appointment.location,
       type: this.appointment.type,
-      subject: this.appointment.subject
+      subject: this.appointment.subject,
+      attachments: JSON.parse(this.appointment.attachments)
     };
   },
 
@@ -60820,6 +60828,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           flash("De afspraak is verwijderd.");
         });
       }
+    },
+    linkTo: function linkTo(attachment) {
+      return "https://s3.eu-west-3.amazonaws.com/toagenda/uploads/" + attachment;
     }
   }
 });
@@ -60870,6 +60881,35 @@ var render = function() {
           _c("br"),
           _vm._v("\n            " + _vm._s(this.creator.name) + "\n        ")
         ]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _vm.attachments
+          ? _c(
+              "div",
+              { staticClass: "appointment-info" },
+              [
+                _c("u", [_vm._v("Bijlage(n):")]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _vm._l(_vm.attachments, function(attachment, index) {
+                  return _c(
+                    "a",
+                    { key: index, attrs: { href: _vm.linkTo(attachment) } },
+                    [
+                      _vm._v(
+                        "\n            # " +
+                          _vm._s(index + 1) +
+                          " (download)\n          "
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
+            )
+          : _vm._e(),
         _vm._v(" "),
         _vm.canDelete
           ? _c("div", { staticClass: "appointment-delete" }, [
@@ -61150,8 +61190,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
-      form: {},
-      uploadedFiles: {}
+      form: {
+        attachments: {}
+      }
     };
   },
 
@@ -61167,9 +61208,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         subject: this.form.subject,
         location: this.form.place,
         type: this.form.tasktype,
+        attachments: Object.keys(this.form.attachments),
         date: this.day,
         period: this.period
-      }, { headers: { "Content-Type": "multipart/form-data" } }).then(function (response) {
+      }).then(function (response) {
         _this.form = {};
         _this.$emit("new-appointment");
       }).catch(function (error) {
@@ -61177,17 +61219,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     addFile: function addFile(hashedFilename, originalFilename) {
-      this.uploadedFiles[hashedFilename] = originalFilename;
+      this.form.attachments[hashedFilename] = originalFilename;
     },
     removeFile: function removeFile(filename) {
       var _this2 = this;
 
       // get the key of the file in the uploadedFiles object
-      var key = this.getKeyByValue(this.uploadedFiles, filename);
+      var key = this.getKeyByValue(this.form.attachments, filename);
 
       // remove the item with this key from the uploadedFiles object
       axios.delete("/api/uploads/" + key).then(function (response) {
-        delete _this2.uploadedFiles[key];
+        delete _this2.form.attachments[key];
       });
     },
     getKeyByValue: function getKeyByValue(object, value) {
@@ -61894,11 +61936,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var FilePond = __WEBPACK_IMPORTED_MODULE_0_vue_filepond___default()(__WEBPACK_IMPORTED_MODULE_1_filepond_plugin_file_validate_type_dist_filepond_plugin_file_validate_type_esm_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2_filepond_plugin_image_preview_dist_filepond_plugin_image_preview_esm_js__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "app",
+  components: {
+    FilePond: FilePond
+  },
+
   data: function data() {
     return {
-      uploadedFiles: {},
-
       serverOptions: {
         process: {
           url: "/api/upload",
@@ -61925,7 +61968,6 @@ var FilePond = __WEBPACK_IMPORTED_MODULE_0_vue_filepond___default()(__WEBPACK_IM
 
   methods: {
     handleUndo: function handleUndo(file) {
-
       this.$emit('removed-file', file.filename);
     },
     fileHasBeenUploaded: function fileHasBeenUploaded(response) {
@@ -61936,11 +61978,8 @@ var FilePond = __WEBPACK_IMPORTED_MODULE_0_vue_filepond___default()(__WEBPACK_IM
 
       this.$emit('uploaded-file', hashedFilename, originalFilename);
     }
-  },
-
-  components: {
-    FilePond: FilePond
   }
+
 });
 
 /***/ }),

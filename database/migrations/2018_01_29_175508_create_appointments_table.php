@@ -29,6 +29,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('location');
             $table->boolean('accepted')->default(false);
             $table->text('message')->nullable();
+            $table->text('attachments')->nullable();
 
             $table->timestamps();
         });
