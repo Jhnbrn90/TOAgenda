@@ -37,7 +37,10 @@
 
                         <div class="form-group">
                             <label for="location">Bijlage(n): </label>
-                            <file-uploader />
+                            <file-uploader 
+                                @uploaded-file = "addFile"
+                                @removed-file = "removeFile"
+                            />
                         </div>
 
 
@@ -86,7 +89,8 @@ export default {
 
   data() {
     return {
-      form: {}
+      form: {},
+      uploadedFiles: {},
     };
   },
 
@@ -112,6 +116,23 @@ export default {
           this.$emit("new-appointment");
         })
         .catch(error => flash("Niet alle velden zijn juist ingevuld."));
+    },
+
+    addFile(hashedFilename, originalFilename) {
+        this.uploadedFiles[hashedFilename] = originalFilename;
+    },
+
+    removeFile(filename) {
+        // get the key of the file in the uploadedFiles object
+        let key = this.getKeyByValue(this.uploadedFiles, filename);
+
+          // remove the item with this key from the uploadedFiles object
+          axios.delete(`/api/uploads/${key}`)
+          .then(response => { delete this.uploadedFiles[key]; });
+    },
+
+    getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key] === value);
     },
 
   },

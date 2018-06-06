@@ -68,12 +68,9 @@ export default {
 
   methods: {
     handleUndo(file) {
-      // get the key of the file in the uploadedFiles object
-      let key = this.getKeyByValue(this.uploadedFiles, file.filename);
+      
+      this.$emit('removed-file', file.filename);
 
-      // remove the item with this key from the uploadedFiles object
-      axios.delete(`/api/uploads/${key}`)
-      .then(response => { delete this.uploadedFiles[key]; });
     },
 
     fileHasBeenUploaded(response) {
@@ -82,15 +79,7 @@ export default {
         let hashedFilename = strippedFilename.split(';')[0]; 
         let originalFilename = strippedFilename.split(';')[1]; 
 
-        this.uploadedFiles[hashedFilename] = originalFilename;
-
-        this.$nextTick(); 
-
-        return hashedFilename; 
-    },
-
-    getKeyByValue(object, value) {
-      return Object.keys(object).find(key => object[key] === value);
+        this.$emit('uploaded-file', hashedFilename, originalFilename);
     },
 
   },

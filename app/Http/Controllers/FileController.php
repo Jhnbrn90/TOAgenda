@@ -9,7 +9,6 @@ class FileController extends Controller
 {
     public function store(Request $request)
     {
-        // TODO: extract a method
         $path = $request->file('attachment')->store('uploads');
 
         $tmp_filename = preg_split('#/#', $path)[1];

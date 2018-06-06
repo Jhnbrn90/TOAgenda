@@ -61141,13 +61141,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["day", "period"],
 
   data: function data() {
     return {
-      form: {}
+      form: {},
+      uploadedFiles: {}
     };
   },
 
@@ -61170,6 +61174,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$emit("new-appointment");
       }).catch(function (error) {
         return flash("Niet alle velden zijn juist ingevuld.");
+      });
+    },
+    addFile: function addFile(hashedFilename, originalFilename) {
+      this.uploadedFiles[hashedFilename] = originalFilename;
+    },
+    removeFile: function removeFile(filename) {
+      var _this2 = this;
+
+      // get the key of the file in the uploadedFiles object
+      var key = this.getKeyByValue(this.uploadedFiles, filename);
+
+      // remove the item with this key from the uploadedFiles object
+      axios.delete("/api/uploads/" + key).then(function (response) {
+        delete _this2.uploadedFiles[key];
+      });
+    },
+    getKeyByValue: function getKeyByValue(object, value) {
+      return Object.keys(object).find(function (key) {
+        return object[key] === value;
       });
     }
   },
@@ -61300,7 +61323,12 @@ var render = function() {
                       _vm._v("Bijlage(n): ")
                     ]),
                     _vm._v(" "),
-                    _c("file-uploader")
+                    _c("file-uploader", {
+                      on: {
+                        "uploaded-file": _vm.addFile,
+                        "removed-file": _vm.removeFile
+                      }
+                    })
                   ],
                   1
                 ),
@@ -61897,15 +61925,8 @@ var FilePond = __WEBPACK_IMPORTED_MODULE_0_vue_filepond___default()(__WEBPACK_IM
 
   methods: {
     handleUndo: function handleUndo(file) {
-      var _this = this;
 
-      // get the key of the file in the uploadedFiles object
-      var key = this.getKeyByValue(this.uploadedFiles, file.filename);
-
-      // remove the item with this key from the uploadedFiles object
-      axios.delete("/api/uploads/" + key).then(function (response) {
-        delete _this.uploadedFiles[key];
-      });
+      this.$emit('removed-file', file.filename);
     },
     fileHasBeenUploaded: function fileHasBeenUploaded(response) {
       var strippedFilename = response.replace(/[\"\"]/g, "");
@@ -61913,16 +61934,7 @@ var FilePond = __WEBPACK_IMPORTED_MODULE_0_vue_filepond___default()(__WEBPACK_IM
       var hashedFilename = strippedFilename.split(';')[0];
       var originalFilename = strippedFilename.split(';')[1];
 
-      this.uploadedFiles[hashedFilename] = originalFilename;
-
-      this.$nextTick();
-
-      return hashedFilename;
-    },
-    getKeyByValue: function getKeyByValue(object, value) {
-      return Object.keys(object).find(function (key) {
-        return object[key] === value;
-      });
+      this.$emit('uploaded-file', hashedFilename, originalFilename);
     }
   },
 
