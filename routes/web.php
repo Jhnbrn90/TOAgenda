@@ -62,4 +62,6 @@ Route::delete('/aanvraag/{appointment}', 'AppointmentController@destroy');
       Route::get('/users/{user}', 'UserController@show')->name('users.show');
 
       Route::patch('/users/{user}', 'UserController@update')->name('users.update');
+
+      Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
   });

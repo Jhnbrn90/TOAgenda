@@ -64,4 +64,13 @@ class UserController extends Controller
 
         return redirect('/admin/users');
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        session()->flash('message', ['success', 'Gebruiker verwijderd.']);
+
+        return redirect()->route('users.index');
+    }
 }
